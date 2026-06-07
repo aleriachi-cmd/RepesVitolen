@@ -24,11 +24,11 @@ body{
 
 /* ── Sections ── */
 .section{ border-bottom:1px solid var(--border); background:var(--card); }
-.section:first-child{ border-radius:var(--r) var(--r) 0 0; overflow:hidden; }
-.section:last-child{ border-bottom:none; border-radius:0 0 var(--r) var(--r); overflow:hidden; }
+.section:first-child{ border-radius:var(--r) var(--r) 0 0; overflow:visible; }
+.section:last-child{ border-bottom:none; border-radius:0 0 var(--r) var(--r); overflow:visible; }
 #form-card{
   background:var(--card); border-radius:var(--r);
-  box-shadow:var(--shadow); overflow:hidden;
+  box-shadow:var(--shadow); overflow:visible;
 }
 .section-header{
   display:flex; align-items:center; justify-content:space-between;
@@ -156,7 +156,7 @@ textarea{resize:none;}
 .ds-dd{
   display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;
   background:#fff;border:1.5px solid var(--border-focus);border-radius:7px;
-  max-height:240px;overflow-y:auto;z-index:200;
+  max-height:240px;overflow-y:auto;z-index:9999;
   box-shadow:0 6px 24px rgba(26,95,219,.15);
 }
 .ds-dd.open{display:block;}
