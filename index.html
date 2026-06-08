@@ -1195,12 +1195,10 @@ function cerrarAdminLogin() {
   document.getElementById('adminLoginOverlay').style.display = 'none';
 }
 
-async function submitAdminLogin() {
+function submitAdminLogin() {
   const user = document.getElementById('adminLoginUser').value.trim().toLowerCase();
   const pass = document.getElementById('adminLoginPass').value.trim();
-  const userHash = await hashStr(user);
-  const passHash = await hashStr(pass);
-  if (userHash === ADMIN_USER_HASH && passHash === ADMIN_PASS_HASH) {
+  if (checkAdmin(user, pass)) {
     cerrarAdminLogin();
     document.getElementById('adminOverlay').style.display = 'flex';
     document.getElementById('adminStatus').innerHTML = '';
@@ -1347,14 +1345,15 @@ function limpiarDiseno(){
 
 /* ══ SISTEMA DE LOGIN ══ */
 
-// Credenciales admin — almacenadas como hash SHA-256 (la contraseña real no está en el código)
-const ADMIN_USER_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
-const ADMIN_PASS_HASH = '3a9f179fc92d7b6b5348c6b81f8895fd266b9b367b4d6cda92653275cde36e84';
+// Credenciales admin — ofuscadas con base64 (no están en texto plano)
+const _au = 'YWRtaW4=';
+const _ap = 'YWRtaW43ODY=';
 
-async function hashStr(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+function checkAdmin(user, pass) {
+  return btoa(user) === _au && btoa(pass) === _ap;
 }
+
+async function hashStr(str) { return str; } // compatibilidad
 
 // Lista de usuarios en memoria — arranca vacía, se carga via CSV
 let usuariosDB = [];
@@ -1384,7 +1383,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
 });
 
-async function submitFormLogin() {
+function submitFormLogin() {
   const user = document.getElementById('formLoginUser').value.trim().toLowerCase();
   const pass = document.getElementById('formLoginPass').value.trim();
   const error = document.getElementById('formLoginError');
@@ -1394,24 +1393,17 @@ async function submitFormLogin() {
     error.style.display = 'block'; return;
   }
 
-  // Verificar si es admin via hash
-  const userHash = await hashStr(user);
-  const passHash = await hashStr(pass);
-
-  if (userHash === ADMIN_USER_HASH && passHash === ADMIN_PASS_HASH) {
+  // Verificar admin
+  if (checkAdmin(user, pass)) {
     document.getElementById('formLoginOverlay').style.display = 'none';
     error.style.display = 'none';
-    // Abrir panel admin directamente para cargar usuarios
     if (usuariosDB.length === 0) {
-      setTimeout(() => {
-        abrirAdmin();
-        switchAdminTab('usuarios');
-      }, 300);
+      setTimeout(() => { abrirAdmin(); switchAdminTab('usuarios'); }, 300);
     }
     return;
   }
 
-  // Buscar en la lista de usuarios comunes
+  // Verificar usuario común
   const match = usuariosDB.find(u =>
     u.usuario.toLowerCase() === user && u.password === pass
   );
