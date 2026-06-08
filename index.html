@@ -1360,26 +1360,44 @@ let usuariosDB = [];
 let loginListo = false;
 
 // Cargar logo en el login screen
-window.addEventListener('DOMContentLoaded', () => {
+const USUARIOS_URL = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Usuarios_Repeticiones.csv';
+
+window.addEventListener('DOMContentLoaded', async () => {
   const logoEl = document.querySelector('.brand img');
   if (logoEl) document.getElementById('loginLogo').src = logoEl.src;
-  // Intentar cargar usuarios desde localStorage (persistencia entre sesiones)
-  const saved = localStorage.getItem('vitolen_usuarios');
-  if (saved) {
-    try {
-      usuariosDB = JSON.parse(saved);
-      loginListo = true;
-      document.getElementById('formLoginInfo').innerHTML =
-        `✅ ${usuariosDB.length} usuarios disponibles`;
-      document.getElementById('formLoginInfo').style.background = '#dcfce7';
-      document.getElementById('formLoginInfo').style.color = '#16a34a';
-    } catch(e) { usuariosDB = []; }
-  } else {
-    document.getElementById('formLoginInfo').innerHTML =
-      '⚠️ No hay usuarios cargados. Contactá al administrador.';
+
+  // Cargar usuarios desde GitHub
+  try {
+    document.getElementById('formLoginInfo').innerHTML = '⏳ Cargando usuarios...';
+    document.getElementById('formLoginInfo').style.background = '#e8effe';
+    document.getElementById('formLoginInfo').style.color = 'var(--sec-hdr)';
+
+    const res = await fetch(USUARIOS_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error('No se pudo cargar el archivo');
+    const text = await res.text();
+    const rows = text.trim().split('\n').map(r =>
+      r.split(/[;,]/).map(c => c.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
+    );
+    // Detectar header
+    const startIdx = (rows[0] && rows[0][0].toLowerCase().includes('usu')) ? 1 : 0;
+    usuariosDB = [];
+    rows.slice(startIdx).forEach(cols => {
+      if (!cols || !cols[0]) return;
+      const usuario = cols[0].trim().toLowerCase();
+      const password = (cols[1] && cols[1].trim()) ? cols[1].trim() : usuario;
+      if (usuario) usuariosDB.push({ usuario, password });
+    });
+
+    document.getElementById('formLoginInfo').innerHTML = `✅ ${usuariosDB.length} usuarios disponibles`;
+    document.getElementById('formLoginInfo').style.background = '#dcfce7';
+    document.getElementById('formLoginInfo').style.color = '#16a34a';
+  } catch(e) {
+    // Si no hay archivo todavía, solo el admin puede entrar
+    document.getElementById('formLoginInfo').innerHTML = '⚠️ Sin lista de usuarios. Solo admin puede ingresar.';
     document.getElementById('formLoginInfo').style.background = '#fef3c7';
     document.getElementById('formLoginInfo').style.color = '#92400e';
   }
+
   setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
 });
 
@@ -1492,10 +1510,16 @@ function procesarUsuarios(rows, filename) {
   }
 
   usuariosDB = nuevos;
-  // Persistir en localStorage para que sobreviva recargas
-  localStorage.setItem('vitolen_usuarios', JSON.stringify(usuariosDB));
 
-  status.innerHTML = `<span style="color:var(--green);font-weight:600;">✅ ${nuevos.length} usuarios cargados desde "${filename}"</span>`;
+  status.innerHTML = `
+    <div style="color:var(--green);font-weight:600;margin-bottom:8px;">✅ ${nuevos.length} usuarios procesados desde "${filename}"</div>
+    <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:6px;padding:10px;font-size:12px;color:#92400e;line-height:1.6;">
+      <strong>📌 Paso siguiente:</strong> Para que quede guardado permanentemente,
+      subí este archivo como <strong>usuarios.csv</strong> en tu repo de GitHub
+      (<code>aleriachi-cmd/RepesVitolen</code>).<br><br>
+      Mientras tanto, los usuarios listados abajo están activos en esta sesión.
+    </div>
+  `;
 
   // Actualizar lista visual
   const lista = document.getElementById('usuariosLista');
