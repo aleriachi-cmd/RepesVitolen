@@ -368,8 +368,8 @@ textarea{resize:none;}
           </tbody>
         </table>
 
-        <!-- RPI + Campo de profundidad -->
-        <div class="grid g3">
+        <!-- RPI + Campo de profundidad (solo si hay OFFICE) -->
+        <div class="grid g3" id="rpiCampoWrap" style="display:none">
           <div class="f">
             <label class="lbl">RPI</label>
             <select id="rpi">
@@ -1160,6 +1160,7 @@ function seleccionarRubro(d) {
   pill.textContent = d.cod; pill.classList.add('v');
   document.getElementById('rubroClearBtn').style.display = 'flex';
   document.getElementById('ddRubro').classList.remove('open');
+  verificarOffice();
 
   // Mostrar badge de garantía
   const badge = document.getElementById('garantiaBadge');
@@ -1324,6 +1325,21 @@ function toggleTrabajos() {
   document.getElementById('trabajosBody').classList.toggle('open', document.getElementById('trabajosToggle').checked);
 }
 
+/* ══ OFFICE DETECTION ══ */
+function verificarOffice() {
+  const rubroNombre = document.getElementById('rubroNombre').value || '';
+  const disenoNombre = document.getElementById('nombreDisenyo').value || '';
+  const esOffice = /OFFICE/i.test(rubroNombre) || /OFFICE/i.test(disenoNombre);
+  document.getElementById('rpiCampoWrap').style.display = esOffice ? 'grid' : 'none';
+  if (!esOffice) {
+    document.getElementById('rpi').value = '';
+    document.querySelectorAll('input[name="campo"]').forEach(r => {
+      r.checked = false;
+      r.closest('.pill').classList.remove('checked');
+    });
+  }
+}
+
 /* ══ DISEÑO SEARCH ══ */
 function highlight(text, query) {
   if (!query) return text;
@@ -1352,17 +1368,21 @@ function cerrarDiseno(){setTimeout(()=>document.getElementById('ddDiseno').class
 function seleccionarDisenio(d){
   document.getElementById('codDisenyo').value=d.cod;
   document.getElementById('nombreDisenyo').value=d.nombre;
-  document.getElementById('disenoSearch').value='';
+  document.getElementById('disenoSearch').value=d.nombre;
+  document.getElementById('disenoSearch').readOnly=true;
   const pill=document.getElementById('codPill'); pill.textContent=d.cod; pill.classList.add('v');
   document.getElementById('designClearBtn').style.display='flex';
   document.getElementById('ddDiseno').classList.remove('open');
+  verificarOffice();
 }
 function limpiarDiseno(){
   ['codDisenyo','nombreDisenyo'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('disenoSearch').value='';
+  document.getElementById('disenoSearch').readOnly=false;
   document.getElementById('codPill').classList.remove('v');
   document.getElementById('designClearBtn').style.display='none';
   document.getElementById('ddDiseno').classList.remove('open');
+  verificarOffice();
   document.getElementById('disenoSearch').focus();
 }
 
@@ -1740,6 +1760,7 @@ async function exportarImagen() {
       }
 
       function dataRow(label, value, alt) {
+        if (String(value).trim() === '—' || String(value).trim() === '') return; // omitir vacíos
         const LW = 155 * SC;
         if (!dryRun) {
           ctx.fillStyle = alt ? col.rowA : col.rowB;
@@ -1845,32 +1866,30 @@ async function exportarImagen() {
 
       y += 6 * SC;
       secHead('Armazón');
-
-      // DNP + Alt. Pupilar — siempre visibles
       recTable(['OD','OI'], [
-        {label:'DNP',               vals:[dnpOd, dnpOi]},
+        {label:'DNP',                vals:[dnpOd, dnpOi]},
         {label:'Alt. Pupilar / Seg.',vals:[altOd, altOi]},
       ]);
-
       if (armazonOn) {
         dataRow('Medidas', `Largo: ${largo}  Altura: ${alturaA}  Diag: ${diag}  Puente: ${puente}`, false);
         dataRow('Características', caract, true);
         dataRow('Forma', forma, false);
       }
 
-      y += 6 * SC;
-      secHead('Trabajos' + (trabajosOn ? '' : '  (sin cambio)'));
-      if (trabajosOn) {
+      const hayTrabajos = trabajosOn && (trat !== '—' || calib !== '—' || trazado !== '—');
+      if (hayTrabajos) {
+        y += 6 * SC;
+        secHead('Trabajos');
         dataRow('Tratamiento / Recub.', trat, false);
         dataRow('Calibrado', calib, true);
-        dataRow('Habilitar Trazado', trazado, false);
-      } else {
-        dataRow('', '—', false);
+        dataRow('Trazado', trazado, false);
       }
 
-      y += 6 * SC;
-      secHead('Observación');
-      dataRow('', obs, false);
+      if (obs && obs !== '—') {
+        y += 6 * SC;
+        secHead('Observación');
+        dataRow('', obs, false);
+      }
 
       y += PAD;
       return y;
