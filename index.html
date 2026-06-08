@@ -283,9 +283,13 @@ textarea{resize:none;}
           </div>
           <div class="f">
             <label class="lbl">Motivo</label>
-            <select id="motivo" disabled style="opacity:.5;cursor:not-allowed;">
+            <select id="motivo" disabled style="opacity:.5;cursor:not-allowed;"
+                    onclick="motivoClick()">
               <option value="">— Seleccioná rubro primero —</option>
             </select>
+            <span id="motivoAviso" style="display:none;font-size:10.5px;color:#dc2626;font-weight:500;margin-top:2px;">
+              ⚠️ Primero seleccioná la Oficina Responsable
+            </span>
           </div>
         </div>
 
@@ -540,7 +544,40 @@ textarea{resize:none;}
   </button>
 </div>
 
-<!-- Login modal -->
+<!-- Login formulario (bloquea acceso) -->
+<div id="formLoginOverlay" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#0d3a8e 0%,#1a5fdb 100%);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:36px 40px;max-width:360px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,.4);text-align:center;">
+    <img src="" id="loginLogo" style="height:52px;width:auto;margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+    <h2 style="font-size:18px;font-weight:700;color:var(--sec-hdr);margin-bottom:4px;">Plantilla de Repetición</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">Ingresá tus credenciales para continuar</p>
+    <div style="display:flex;flex-direction:column;gap:10px;text-align:left;">
+      <div>
+        <label style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-family:'DM Mono',monospace;display:block;margin-bottom:4px;">Usuario</label>
+        <input type="text" id="formLoginUser" placeholder="Tu usuario"
+               onkeydown="if(event.key==='Enter') document.getElementById('formLoginPass').focus()"
+               style="width:100%;border:1.5px solid var(--border);border-radius:6px;padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;">
+      </div>
+      <div>
+        <label style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-family:'DM Mono',monospace;display:block;margin-bottom:4px;">Contraseña</label>
+        <input type="password" id="formLoginPass" placeholder="Tu contraseña"
+               onkeydown="if(event.key==='Enter') submitFormLogin()"
+               style="width:100%;border:1.5px solid var(--border);border-radius:6px;padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;">
+      </div>
+      <div id="formLoginError" style="display:none;background:#fee2e2;color:#dc2626;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:600;">
+        ❌ Usuario o contraseña incorrectos
+      </div>
+      <div id="formLoginInfo" style="background:#e8effe;color:var(--sec-hdr);border-radius:6px;padding:8px 12px;font-size:11.5px;">
+        ⏳ Cargando lista de usuarios...
+      </div>
+      <button onclick="submitFormLogin()"
+              style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;transition:background .15s;">
+        Ingresar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Login admin -->
 <div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
   <div style="background:#fff;border-radius:12px;padding:28px 32px;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -571,28 +608,73 @@ textarea{resize:none;}
   </div>
 </div>
 
-<!-- Admin panel -->
+<!-- Admin panel con pestañas -->
 <div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
-  <div style="background:#fff;border-radius:12px;padding:28px 32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <h3 style="font-size:16px;font-weight:700;color:var(--sec-hdr);">Actualizar lista de rubros</h3>
+  <div style="background:#fff;border-radius:12px;max-width:520px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--sec-bg);">
+      <h3 style="font-size:15px;font-weight:700;color:var(--sec-hdr);">⚙️ Panel de Administración</h3>
       <button onclick="cerrarAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">✕</button>
     </div>
-    <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">
-      Subí un archivo <strong>CSV o Excel (.xlsx)</strong> con tres columnas:<br>
-      <span style="font-family:'DM Mono',monospace;font-size:11px;background:#f0f2f5;padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px;"><strong>A:</strong> Código &nbsp;|&nbsp; <strong>B:</strong> Nombre &nbsp;|&nbsp; <strong>C:</strong> Garantía (SI/NO)</span>
-    </p>
-    <div id="adminDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:12px;"
-         onclick="document.getElementById('adminFileInput').click()"
-         ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
-         ondragleave="this.style.borderColor='var(--border)'"
-         ondrop="handleAdminDrop(event)">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      <p style="font-size:13px;color:var(--text-muted);">Arrastrá o hacé clic para seleccionar</p>
-      <p style="font-size:11px;color:#aaa;margin-top:4px;">.csv o .xlsx</p>
+
+    <!-- Tabs -->
+    <div style="display:flex;border-bottom:1px solid var(--border);">
+      <button id="tabRubrosBtn" onclick="switchAdminTab('rubros')"
+              style="flex:1;padding:10px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:var(--accent);color:#fff;transition:all .15s;">
+        📦 Rubros
+      </button>
+      <button id="tabUsuariosBtn" onclick="switchAdminTab('usuarios')"
+              style="flex:1;padding:10px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:#fff;color:var(--text-muted);transition:all .15s;">
+        👥 Usuarios
+      </button>
     </div>
-    <input type="file" id="adminFileInput" accept=".csv,.xlsx" style="display:none" onchange="handleAdminFile(this.files[0])">
-    <div id="adminStatus" style="font-size:12px;min-height:20px;"></div>
+
+    <!-- Tab Rubros -->
+    <div id="tabRubros" style="padding:24px;">
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+        Subí un CSV con tres columnas:<br>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;background:#f0f2f5;padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px;">
+          <strong>A:</strong> Código &nbsp;|&nbsp; <strong>B:</strong> Nombre &nbsp;|&nbsp; <strong>C:</strong> Garantía (SI/NO)
+        </span>
+      </p>
+      <div id="adminDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:12px;"
+           onclick="document.getElementById('adminFileInput').click()"
+           ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+           ondragleave="this.style.borderColor='var(--border)'"
+           ondrop="handleAdminDrop(event)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p style="font-size:13px;color:var(--text-muted);">Arrastrá o hacé clic para seleccionar</p>
+        <p style="font-size:11px;color:#aaa;margin-top:4px;">.csv</p>
+      </div>
+      <input type="file" id="adminFileInput" accept=".csv,.xlsx" style="display:none" onchange="handleAdminFile(this.files[0])">
+      <div id="adminStatus" style="font-size:12px;min-height:20px;"></div>
+    </div>
+
+    <!-- Tab Usuarios -->
+    <div id="tabUsuarios" style="padding:24px;display:none;">
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+        Subí un CSV con dos columnas:<br>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;background:#f0f2f5;padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px;">
+          <strong>A:</strong> Usuario &nbsp;|&nbsp; <strong>B:</strong> Contraseña
+        </span><br><br>
+        <span style="font-size:11px;">Si la columna B está vacía, la contraseña será igual al usuario.</span>
+      </p>
+      <div id="usuariosDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:12px;"
+           onclick="document.getElementById('usuariosFileInput').click()"
+           ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+           ondragleave="this.style.borderColor='var(--border)'"
+           ondrop="handleUsuariosDrop(event)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p style="font-size:13px;color:var(--text-muted);">Arrastrá o hacé clic para seleccionar</p>
+        <p style="font-size:11px;color:#aaa;margin-top:4px;">.csv</p>
+      </div>
+      <input type="file" id="usuariosFileInput" accept=".csv" style="display:none" onchange="handleUsuariosFile(this.files[0])">
+      <div id="usuariosStatus" style="font-size:12px;min-height:20px;"></div>
+      <!-- Lista actual -->
+      <div id="usuariosLista" style="margin-top:12px;max-height:180px;overflow-y:auto;"></div>
+    </div>
+
   </div>
 </div>
 
@@ -985,6 +1067,16 @@ let rubros = disenios.map(d => ({cod: d.cod, nombre: d.nombre, garantia: d.garan
 /* ══ MOTIVOS ══ */
 const MOTIVOS_GARANTIA_RE = /^(5[5-9]|6[0-5])\s*-/;
 
+function motivoClick() {
+  const rubroOk = document.getElementById('rubroCod').value !== '';
+  const oficinaOk = document.getElementById('oficina').value !== '';
+  const aviso = document.getElementById('motivoAviso');
+  if (rubroOk && !oficinaOk) {
+    aviso.style.display = 'block';
+    setTimeout(() => aviso.style.display = 'none', 3000);
+  }
+}
+
 function actualizarMotivos() {
   const oficina = document.getElementById('oficina').value;
   const sel = document.getElementById('motivo');
@@ -1003,6 +1095,7 @@ function actualizarMotivos() {
   sel.disabled = false;
   sel.style.opacity = '1';
   sel.style.cursor = '';
+  document.getElementById('motivoAviso').style.display = 'none';
   sel.innerHTML = '<option value="">— Seleccionar —</option>';
   if (!oficina) return;
 
@@ -1250,8 +1343,150 @@ function limpiarDiseno(){
   document.getElementById('disenoSearch').focus();
 }
 
+/* ══ SISTEMA DE LOGIN ══ */
+
+// Credenciales admin hardcodeadas (separadas de usuarios comunes)
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'admin786';
+
+// Lista de usuarios en memoria — arranca vacía, se carga via CSV
+let usuariosDB = [];
+let loginListo = false;
+
+// Cargar logo en el login screen
+window.addEventListener('DOMContentLoaded', () => {
+  const logoEl = document.querySelector('.brand img');
+  if (logoEl) document.getElementById('loginLogo').src = logoEl.src;
+  // Intentar cargar usuarios desde localStorage (persistencia entre sesiones)
+  const saved = localStorage.getItem('vitolen_usuarios');
+  if (saved) {
+    try {
+      usuariosDB = JSON.parse(saved);
+      loginListo = true;
+      document.getElementById('formLoginInfo').innerHTML =
+        `✅ ${usuariosDB.length} usuarios disponibles`;
+      document.getElementById('formLoginInfo').style.background = '#dcfce7';
+      document.getElementById('formLoginInfo').style.color = '#16a34a';
+    } catch(e) { usuariosDB = []; }
+  } else {
+    document.getElementById('formLoginInfo').innerHTML =
+      '⚠️ No hay usuarios cargados. Contactá al administrador.';
+    document.getElementById('formLoginInfo').style.background = '#fef3c7';
+    document.getElementById('formLoginInfo').style.color = '#92400e';
+  }
+  setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
+});
+
+function submitFormLogin() {
+  const user = document.getElementById('formLoginUser').value.trim().toLowerCase();
+  const pass = document.getElementById('formLoginPass').value.trim();
+  const error = document.getElementById('formLoginError');
+
+  if (!user || !pass) {
+    error.textContent = '❌ Completá usuario y contraseña';
+    error.style.display = 'block'; return;
+  }
+
+  // Buscar en la lista de usuarios
+  const match = usuariosDB.find(u =>
+    u.usuario.toLowerCase() === user && u.password === pass
+  );
+
+  if (match) {
+    document.getElementById('formLoginOverlay').style.display = 'none';
+    error.style.display = 'none';
+  } else {
+    error.textContent = '❌ Usuario o contraseña incorrectos';
+    error.style.display = 'block';
+    document.getElementById('formLoginPass').value = '';
+    document.getElementById('formLoginPass').focus();
+  }
+}
+
+/* ══ ADMIN: TABS ══ */
+function switchAdminTab(tab) {
+  const isRubros = tab === 'rubros';
+  document.getElementById('tabRubros').style.display = isRubros ? 'block' : 'none';
+  document.getElementById('tabUsuarios').style.display = isRubros ? 'none' : 'block';
+  document.getElementById('tabRubrosBtn').style.background = isRubros ? 'var(--accent)' : '#fff';
+  document.getElementById('tabRubrosBtn').style.color = isRubros ? '#fff' : 'var(--text-muted)';
+  document.getElementById('tabUsuariosBtn').style.background = isRubros ? '#fff' : 'var(--accent)';
+  document.getElementById('tabUsuariosBtn').style.color = isRubros ? 'var(--text-muted)' : '#fff';
+}
+
+/* ══ ADMIN: USUARIOS CSV ══ */
+function handleUsuariosDrop(e) {
+  e.preventDefault();
+  document.getElementById('usuariosDropZone').style.borderColor = 'var(--border)';
+  const file = e.dataTransfer.files[0];
+  if (file) handleUsuariosFile(file);
+}
+
+function handleUsuariosFile(file) {
+  if (!file) return;
+  const status = document.getElementById('usuariosStatus');
+  status.innerHTML = '<span style="color:var(--text-muted)">⏳ Procesando...</span>';
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const rows = e.target.result.split('\n').map(r =>
+        r.split(/[;,]/).map(c => c.trim().replace(/^"|"$/g,''))
+      );
+      procesarUsuarios(rows, file.name);
+    } catch(err) {
+      status.innerHTML = `<span style="color:var(--red)">❌ Error: ${err.message}</span>`;
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function procesarUsuarios(rows, filename) {
+  const status = document.getElementById('usuariosStatus');
+  // Detectar si primera fila es header
+  const primera = rows[0];
+  let startIdx = (primera && isNaN(primera[0]) && primera[0].toLowerCase().includes('usu')) ? 1 : 0;
+
+  const nuevos = [];
+  rows.slice(startIdx).forEach(cols => {
+    if (!cols || !cols[0]) return;
+    const usuario = cols[0].trim().toLowerCase();
+    // Si no hay contraseña en col B, usar el mismo usuario como pass
+    const password = (cols[1] && cols[1].trim()) ? cols[1].trim() : usuario;
+    if (usuario) nuevos.push({ usuario, password });
+  });
+
+  if (!nuevos.length) {
+    status.innerHTML = `<span style="color:var(--red)">❌ No se encontraron usuarios válidos.</span>`;
+    return;
+  }
+
+  usuariosDB = nuevos;
+  // Persistir en localStorage para que sobreviva recargas
+  localStorage.setItem('vitolen_usuarios', JSON.stringify(usuariosDB));
+
+  status.innerHTML = `<span style="color:var(--green);font-weight:600;">✅ ${nuevos.length} usuarios cargados desde "${filename}"</span>`;
+
+  // Actualizar lista visual
+  const lista = document.getElementById('usuariosLista');
+  lista.innerHTML = `
+    <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-family:'DM Mono',monospace;">
+      Usuarios activos (${nuevos.length})
+    </div>
+    ${nuevos.map(u => `
+      <div style="display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--sec-bg);border-radius:5px;margin-bottom:4px;font-size:12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span style="font-family:'DM Mono',monospace;font-weight:600;">${u.usuario}</span>
+        <span style="color:var(--text-muted);font-size:11px;">••••</span>
+      </div>
+    `).join('')}
+  `;
+
+  // Actualizar el mensaje del login
+  document.getElementById('formLoginInfo').innerHTML = `✅ ${nuevos.length} usuarios disponibles`;
+  document.getElementById('formLoginInfo').style.background = '#dcfce7';
+  document.getElementById('formLoginInfo').style.color = '#16a34a';
+}
 /* ══ EXPORT ══ */
-async function exportarImagen() {
   const overlay = document.getElementById('print-overlay');
   overlay.classList.add('visible');
   await new Promise(r => setTimeout(r, 200));
