@@ -1852,29 +1852,46 @@ async function exportarImagen() {
       dataRow('Detalle de Repetición', detalle, true);
 
       y += 6 * SC;
-      secHead('Receta');
-      dataRow('Cod. Diseño', `${codD}  —  ${nomD}`, false);
-      dataRow('Lentes de Stock', stock, true);
+      const recetaOn = document.getElementById('recetaToggle').checked;
+      const hayDatosReceta = recetaOn && (
+        codD || nomD ||
+        odEsf || odCil || odEje ||
+        oiEsf || oiCil || oiEje ||
+        addOd || addOi
+      );
 
-      recTable(['OD','OI'], [
-        {label:'ESF',  vals:[odEsf, oiEsf]},
-        {label:'CIL',  vals:[odCil, oiCil]},
-        {label:'EJE',  vals:[odEje ? odEje+'°':'—', oiEje ? oiEje+'°':'—']},
-        {label:'ADD',  vals:[addOd, addOi]},
-      ]);
-      dataRow('RPI', rpi, false);
-      dataRow('Campo de Profundidad', campo, true);
+      if (hayDatosReceta) {
+        y += 6 * SC;
+        secHead('Receta');
+        if (codD || nomD) dataRow('Cod. Diseño', `${codD}  —  ${nomD}`, false);
 
-      y += 6 * SC;
-      secHead('Armazón');
-      recTable(['OD','OI'], [
-        {label:'DNP',                vals:[dnpOd, dnpOi]},
-        {label:'Alt. Pupilar / Seg.',vals:[altOd, altOi]},
-      ]);
-      if (armazonOn) {
-        dataRow('Medidas', `Largo: ${largo}  Altura: ${alturaA}  Diag: ${diag}  Puente: ${puente}`, false);
-        dataRow('Características', caract, true);
-        dataRow('Forma', forma, false);
+        const colsReceta = [
+          {label:'ESF', vals:[odEsf||'—', oiEsf||'—']},
+          {label:'CIL', vals:[odCil||'—', oiCil||'—']},
+          {label:'EJE', vals:[odEje ? odEje+'°':'—', oiEje ? oiEje+'°':'—']},
+          {label:'ADD', vals:[addOd||'—', addOi||'—']},
+        ];
+        const hayGraduaciones = colsReceta.some(col => col.vals.some(v => v !== '—'));
+        if (hayGraduaciones) recTable(['OD','OI'], colsReceta);
+        dataRow('RPI', rpi, false);
+        dataRow('Campo de Profundidad', campo, true);
+      }
+
+      const hayArmazon = dnpOd !== '—' || dnpOi !== '—' || altOd !== '—' || altOi !== '—' ||
+        (armazonOn && (largo !== '—' || alturaA !== '—' || diag !== '—' || puente !== '—' || caract !== '—' || forma !== '—'));
+
+      if (hayArmazon) {
+        y += 6 * SC;
+        secHead('Armazón');
+        recTable(['OD','OI'], [
+          {label:'DNP',                vals:[dnpOd, dnpOi]},
+          {label:'Alt. Pupilar / Seg.',vals:[altOd, altOi]},
+        ]);
+        if (armazonOn) {
+          dataRow('Medidas', `Largo: ${largo}  Altura: ${alturaA}  Diag: ${diag}  Puente: ${puente}`, false);
+          dataRow('Características', caract, true);
+          dataRow('Forma', forma, false);
+        }
       }
 
       const hayTrabajos = trabajosOn && (trat !== '—' || calib !== '—' || trazado !== '—');
