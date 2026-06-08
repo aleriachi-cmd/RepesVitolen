@@ -1519,6 +1519,7 @@ function procesarUsuarios(rows, filename) {
   document.getElementById('formLoginInfo').style.color = '#16a34a';
 }
 /* ══ EXPORT ══ */
+async function exportarImagen() {
   const overlay = document.getElementById('print-overlay');
   overlay.classList.add('visible');
   await new Promise(r => setTimeout(r, 200));
