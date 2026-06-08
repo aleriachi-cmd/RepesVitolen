@@ -58,7 +58,7 @@ body{
 /* ── Fields ── */
 .f{display:flex;flex-direction:column;gap:4px;}
 label.lbl{
-  font-size:10px; font-weight:600; color:var(--text-muted);
+  font-size:11.5px; font-weight:700; color:var(--text-muted);
   text-transform:uppercase; letter-spacing:.4px; font-family:'DM Mono',monospace;
 }
 input[type="text"],input[type="number"],select,textarea{
@@ -252,9 +252,9 @@ textarea{resize:none;}
           <div class="f">
             <label class="lbl">Ojo a Repetir</label>
             <div class="pills">
-              <label class="pill" onclick="togglePill(this,'radio','ojo')"><input type="radio" name="ojo" value="OD"> OD</label>
-              <label class="pill" onclick="togglePill(this,'radio','ojo')"><input type="radio" name="ojo" value="OI"> OI</label>
-              <label class="pill checked" id="pillAO" onclick="togglePill(this,'radio','ojo')"><input type="radio" name="ojo" value="AO" checked> AO</label>
+              <label class="pill" onclick="togglePill(this,'radio','ojo');actualizarMotivos()"><input type="radio" name="ojo" value="OD"> OD</label>
+              <label class="pill" onclick="togglePill(this,'radio','ojo');actualizarMotivos()"><input type="radio" name="ojo" value="OI"> OI</label>
+              <label class="pill" id="pillAO" onclick="togglePill(this,'radio','ojo');actualizarMotivos()"><input type="radio" name="ojo" value="AO"> AO</label>
             </div>
           </div>
         </div>
@@ -283,7 +283,7 @@ textarea{resize:none;}
           <div class="f">
             <label class="lbl">Motivo</label>
             <select id="motivo" disabled style="opacity:.5;cursor:not-allowed;"
-                    onclick="motivoClick()">
+                    onclick="motivoClick()" onchange="autoAbrirReceta()">
               <option value="">— Seleccioná rubro primero —</option>
             </select>
             <span id="motivoAviso" style="display:none;font-size:10.5px;color:#dc2626;font-weight:500;margin-top:2px;">
@@ -309,7 +309,7 @@ textarea{resize:none;}
           </div>
           <div>
             <div class="section-title">Receta</div>
-            <div class="section-subtitle">Completar solo en caso de cambio de prescripción</div>
+            <div class="section-subtitle">Completar solo en los casos de cambio de prescripción o diseño</div>
           </div>
         </div>
         <div class="tog-wrap">
@@ -425,6 +425,16 @@ textarea{resize:none;}
         </table>
         <!-- Resto solo si hay cambio -->
         <div class="collapse-body" id="armazonBody">
+          <!-- Habilitar Trazado -->
+          <div class="section-body" style="padding-bottom:6px;border-bottom:1px solid var(--border)">
+            <div class="f">
+              <label class="lbl">Habilitar Trazado <span style="font-size:10px;font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">[Seleccionar SI si es necesario un nuevo trazado]</span></label>
+              <div class="pills">
+                <label class="pill" onclick="togglePill(this,'radio','trazado')"><input type="radio" name="trazado" value="SI"> Sí</label>
+                <label class="pill" onclick="togglePill(this,'radio','trazado')"><input type="radio" name="trazado" value="NO"> No</label>
+              </div>
+            </div>
+          </div>
           <div class="grid g4" style="margin-bottom:6px">
             <div class="f"><label class="lbl">Largo</label><input type="number" id="largo" step="0.5" placeholder="mm"></div>
             <div class="f"><label class="lbl">Altura</label><input type="number" id="altura" step="0.5" placeholder="mm"></div>
@@ -481,19 +491,12 @@ textarea{resize:none;}
                 <option>Sacar Antirreflejo</option>
               </select>
             </div>
-            <!-- AJUSTE 5: Calibrado y Trazado al mismo nivel -->
+            <!-- AJUSTE 5: Calibrado al mismo nivel -->
             <div class="f">
               <label class="lbl">Calibrado</label>
               <div class="pills">
                 <label class="pill" onclick="togglePill(this,'radio','calibrado')"><input type="radio" name="calibrado" value="SI"> Sí</label>
                 <label class="pill" onclick="togglePill(this,'radio','calibrado')"><input type="radio" name="calibrado" value="NO"> No</label>
-              </div>
-            </div>
-            <div class="f">
-              <label class="lbl">Habilitar Trazado</label>
-              <div class="pills">
-                <label class="pill" onclick="togglePill(this,'radio','trazado')"><input type="radio" name="trazado" value="SI"> Sí</label>
-                <label class="pill" onclick="togglePill(this,'radio','trazado')"><input type="radio" name="trazado" value="NO"> No</label>
               </div>
             </div>
           </div>
@@ -1069,8 +1072,18 @@ const MOTIVOS_GARANTIA_RE = /^(5[5-9]|6[0-5])\s*-/;
 function motivoClick() {
   const rubroOk = document.getElementById('rubroCod').value !== '';
   const oficinaOk = document.getElementById('oficina').value !== '';
+  const ojoOk = document.querySelector('input[name="ojo"]:checked') !== null;
   const aviso = document.getElementById('motivoAviso');
-  if (rubroOk && !oficinaOk) {
+  if (!rubroOk) {
+    aviso.textContent = '⚠️ Primero seleccioná el Rubro Pedido Origen';
+    aviso.style.display = 'block';
+    setTimeout(() => aviso.style.display = 'none', 3000);
+  } else if (!oficinaOk) {
+    aviso.textContent = '⚠️ Primero seleccioná la Oficina Responsable';
+    aviso.style.display = 'block';
+    setTimeout(() => aviso.style.display = 'none', 3000);
+  } else if (!ojoOk) {
+    aviso.textContent = '⚠️ Primero seleccioná el Ojo a Repetir';
     aviso.style.display = 'block';
     setTimeout(() => aviso.style.display = 'none', 3000);
   }
@@ -1081,10 +1094,11 @@ function actualizarMotivos() {
   const sel = document.getElementById('motivo');
   const rubroGarantia = document.getElementById('rubroGarantia').value;
   const rubroCompleto = document.getElementById('rubroCod').value !== '';
+  const ojoCompleto = document.querySelector('input[name="ojo"]:checked') !== null;
 
-  // Motivo permanece deshabilitado si no hay rubro seleccionado
-  if (!rubroCompleto) {
-    sel.innerHTML = '<option value="">— Seleccioná rubro primero —</option>';
+  // Motivo permanece deshabilitado si no hay rubro, oficina u ojo seleccionado
+  if (!rubroCompleto || !ojoCompleto) {
+    sel.innerHTML = '<option value="">— Seleccioná rubro y ojo primero —</option>';
     sel.disabled = true;
     sel.style.opacity = '.5';
     sel.style.cursor = 'not-allowed';
@@ -1290,6 +1304,16 @@ function toggleReceta() {
   const cb = document.getElementById('recetaToggle');
   document.getElementById('recetaBody').classList.toggle('open', cb.checked);
   document.getElementById('recetaLabel').textContent = cb.checked ? 'Con cambio' : 'Sin cambio';
+}
+
+function autoAbrirReceta() {
+  const motivo = document.getElementById('motivo').value;
+  const esMotivo55o56 = /^5[56]\s*-/.test(motivo);
+  const cb = document.getElementById('recetaToggle');
+  if (esMotivo55o56 && !cb.checked) {
+    cb.checked = true;
+    toggleReceta();
+  }
 }
 
 function toggleArmazon() {
