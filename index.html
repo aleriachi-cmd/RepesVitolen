@@ -1195,10 +1195,12 @@ function cerrarAdminLogin() {
   document.getElementById('adminLoginOverlay').style.display = 'none';
 }
 
-function submitAdminLogin() {
-  const user = document.getElementById('adminLoginUser').value.trim();
+async function submitAdminLogin() {
+  const user = document.getElementById('adminLoginUser').value.trim().toLowerCase();
   const pass = document.getElementById('adminLoginPass').value.trim();
-  if (user === 'admin' && pass === 'admin786') {
+  const userHash = await hashStr(user);
+  const passHash = await hashStr(pass);
+  if (userHash === ADMIN_USER_HASH && passHash === ADMIN_PASS_HASH) {
     cerrarAdminLogin();
     document.getElementById('adminOverlay').style.display = 'flex';
     document.getElementById('adminStatus').innerHTML = '';
@@ -1345,9 +1347,14 @@ function limpiarDiseno(){
 
 /* ══ SISTEMA DE LOGIN ══ */
 
-// Credenciales admin hardcodeadas (separadas de usuarios comunes)
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin786';
+// Credenciales admin — almacenadas como hash SHA-256 (la contraseña real no está en el código)
+const ADMIN_USER_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
+const ADMIN_PASS_HASH = '3a9f179fc92d7b6b5348c6b81f8895fd266b9b367b4d6cda92653275cde36e84';
+
+async function hashStr(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
 
 // Lista de usuarios en memoria — arranca vacía, se carga via CSV
 let usuariosDB = [];
@@ -1377,7 +1384,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
 });
 
-function submitFormLogin() {
+async function submitFormLogin() {
   const user = document.getElementById('formLoginUser').value.trim().toLowerCase();
   const pass = document.getElementById('formLoginPass').value.trim();
   const error = document.getElementById('formLoginError');
@@ -1387,7 +1394,24 @@ function submitFormLogin() {
     error.style.display = 'block'; return;
   }
 
-  // Buscar en la lista de usuarios
+  // Verificar si es admin via hash
+  const userHash = await hashStr(user);
+  const passHash = await hashStr(pass);
+
+  if (userHash === ADMIN_USER_HASH && passHash === ADMIN_PASS_HASH) {
+    document.getElementById('formLoginOverlay').style.display = 'none';
+    error.style.display = 'none';
+    // Abrir panel admin directamente para cargar usuarios
+    if (usuariosDB.length === 0) {
+      setTimeout(() => {
+        abrirAdmin();
+        switchAdminTab('usuarios');
+      }, 300);
+    }
+    return;
+  }
+
+  // Buscar en la lista de usuarios comunes
   const match = usuariosDB.find(u =>
     u.usuario.toLowerCase() === user && u.password === pass
   );
@@ -1396,7 +1420,9 @@ function submitFormLogin() {
     document.getElementById('formLoginOverlay').style.display = 'none';
     error.style.display = 'none';
   } else {
-    error.textContent = '❌ Usuario o contraseña incorrectos';
+    error.textContent = usuariosDB.length === 0
+      ? '❌ No hay usuarios cargados. Contactá al administrador.'
+      : '❌ Usuario o contraseña incorrectos';
     error.style.display = 'block';
     document.getElementById('formLoginPass').value = '';
     document.getElementById('formLoginPass').focus();
