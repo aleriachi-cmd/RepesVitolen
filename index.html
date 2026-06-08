@@ -528,6 +528,14 @@ textarea{resize:none;}
   </div><!-- /form-card -->
 </div><!-- /page-wrapper -->
 
+<!-- Nueva Repetición banner -->
+<div id="nuevaRepBanner" style="display:none;position:fixed;bottom:56px;left:0;right:0;z-index:48;background:#dcfce7;border-top:1px solid #86efac;padding:10px 16px;align-items:center;justify-content:center;gap:12px;">
+  <span style="font-size:13px;color:#16a34a;font-weight:600;">✅ Imagen descargada correctamente</span>
+  <button onclick="nuevaRepeticion()" style="background:#16a34a;color:#fff;border:none;border-radius:7px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">
+    + Nueva Repetición
+  </button>
+</div>
+
 <!-- Validation banner -->
 <div id="validacionBanner" style="display:none;position:fixed;bottom:56px;left:0;right:0;z-index:49;background:#fef3c7;border-top:1px solid #fde68a;padding:8px 16px;align-items:center;justify-content:center;gap:8px;">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -980,7 +988,10 @@ const gruposPorOficina = {
   "Tucumán": "GRUPO2", "Villa_María": "GRUPO2", "Villa_Mercedes": "GRUPO2",
 };
 
-/* ══ OFICINA SEARCH ══ */
+// Usuario activo
+let usuarioActivo = '';
+
+
 const OFICINAS_TOP = ['Caba','Neuquén','Mendoza','Rafaela'];
 const OFICINAS_REST = [
   'Bahía_Blanca','Bariloche','Catamarca','Comodoro_Rivadavia','Córdoba',
@@ -1467,6 +1478,7 @@ function submitFormLogin() {
     if (checkAdmin(user, pass)) {
       document.getElementById('formLoginOverlay').style.display = 'none';
       error.style.display = 'none';
+      usuarioActivo = user;
       btn.textContent = 'Ingresar';
       btn.disabled = false;
       if (usuariosDB.length === 0) {
@@ -1486,6 +1498,7 @@ function submitFormLogin() {
     if (match) {
       document.getElementById('formLoginOverlay').style.display = 'none';
       error.style.display = 'none';
+      usuarioActivo = user;
     } else {
       error.textContent = usuariosDB.length === 0
         ? '❌ No hay usuarios cargados. Contactá al administrador.'
@@ -1586,6 +1599,58 @@ function procesarUsuarios(rows, filename) {
   document.getElementById('formLoginInfo').style.background = '#dcfce7';
   document.getElementById('formLoginInfo').style.color = '#16a34a';
 }
+function nuevaRepeticion() {
+  // Ocultar banner
+  document.getElementById('nuevaRepBanner').style.display = 'none';
+  document.getElementById('validacionBanner').style.display = 'none';
+
+  // Campos de texto y número
+  ['nroTrabajo','detalle','observacion','od_esf','od_cil','od_eje',
+   'oi_esf','oi_cil','oi_eje','dnp_od','dnp_oi','alt_od','alt_oi',
+   'largo','altura','diag','puente','caracteristicas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  // Selects
+  ['motivo','rpi','tratamiento','forma'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; el.disabled = true; el.style.opacity = '.5'; el.style.cursor = 'not-allowed'; }
+  });
+  document.getElementById('motivo').innerHTML = '<option value="">— Seleccioná rubro y ojo primero —</option>';
+
+  // Pills / radios
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.checked = false;
+    r.closest('.pill')?.classList.remove('checked');
+  });
+
+  // Toggles
+  ['recetaToggle','armazonToggle','trabajosToggle'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+  document.getElementById('recetaBody').classList.remove('open');
+  document.getElementById('recetaLabel').textContent = 'Sin cambio';
+  document.getElementById('armazonBody').classList.remove('open');
+  document.getElementById('trabajosBody').classList.remove('open');
+
+  // Buscadores
+  limpiarOficina();
+  limpiarRubro();
+  limpiarDiseno();
+
+  // Garantia badge reset
+  document.getElementById('garantiaBadge').innerHTML = '<span id="garantiaTexto" style="font-size:11px;color:var(--text-muted);font-style:italic">—</span>';
+
+  // RPI/Campo ocultar
+  document.getElementById('rpiCampoWrap').style.display = 'none';
+
+  // Scroll top
+  window.scrollTo(0, 0);
+  document.getElementById('nroTrabajo').focus();
+}
+
 /* ══ EXPORT ══ */
 async function exportarImagen() {
   const overlay = document.getElementById('print-overlay');
@@ -1740,6 +1805,11 @@ async function exportarImagen() {
           ctx.fillStyle = col.hdr;
           ctx.textAlign = 'center';
           ctx.fillText(nroTrabajo, W/2, y + bh - 8*SC);
+          // Usuario abajo a la izquierda
+          ctx.font = fnt(7.5, false);
+          ctx.fillStyle = col.muted;
+          ctx.textAlign = 'left';
+          ctx.fillText('Usuario: ' + (usuarioActivo || '—'), PAD, y + bh - 5*SC);
           ctx.textAlign = 'left';
         }
         y += bh;
@@ -1932,6 +2002,8 @@ async function exportarImagen() {
     link.download = `repeticion_${ofSlug}_${new Date().toISOString().slice(0,10)}.png`;
     link.href = C.toDataURL('image/png');
     link.click();
+    // Mostrar botón Nueva Repetición
+    document.getElementById('nuevaRepBanner').style.display = 'flex';
 
   } catch(e) {
     alert('Error al generar imagen: ' + e.message);
