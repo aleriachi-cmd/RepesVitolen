@@ -1345,15 +1345,16 @@ function limpiarDiseno(){
 
 /* ══ SISTEMA DE LOGIN ══ */
 
-// Credenciales admin — ofuscadas con base64 (no están en texto plano)
+// Credenciales admin
 const _au = 'YWRtaW4=';
 const _ap = 'YWRtaW43ODY=';
 
 function checkAdmin(user, pass) {
-  return btoa(user) === _au && btoa(pass) === _ap;
+  try {
+    return btoa(unescape(encodeURIComponent(user))) === _au &&
+           btoa(unescape(encodeURIComponent(pass))) === _ap;
+  } catch(e) { return false; }
 }
-
-async function hashStr(str) { return str; } // compatibilidad
 
 // Lista de usuarios en memoria — arranca vacía, se carga via CSV
 let usuariosDB = [];
@@ -1384,41 +1385,54 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function submitFormLogin() {
-  const user = document.getElementById('formLoginUser').value.trim().toLowerCase();
-  const pass = document.getElementById('formLoginPass').value.trim();
+  const userRaw = document.getElementById('formLoginUser').value.trim();
+  const passRaw = document.getElementById('formLoginPass').value.trim();
+  const user = userRaw.toLowerCase();
+  const pass = passRaw;
   const error = document.getElementById('formLoginError');
+  const btn = document.querySelector('#formLoginOverlay button');
 
   if (!user || !pass) {
     error.textContent = '❌ Completá usuario y contraseña';
     error.style.display = 'block'; return;
   }
 
-  // Verificar admin
-  if (checkAdmin(user, pass)) {
-    document.getElementById('formLoginOverlay').style.display = 'none';
-    error.style.display = 'none';
-    if (usuariosDB.length === 0) {
-      setTimeout(() => { abrirAdmin(); switchAdminTab('usuarios'); }, 300);
+  btn.textContent = 'Verificando...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    // Verificar admin
+    if (checkAdmin(user, pass)) {
+      document.getElementById('formLoginOverlay').style.display = 'none';
+      error.style.display = 'none';
+      btn.textContent = 'Ingresar';
+      btn.disabled = false;
+      if (usuariosDB.length === 0) {
+        setTimeout(() => { abrirAdmin(); switchAdminTab('usuarios'); }, 300);
+      }
+      return;
     }
-    return;
-  }
 
-  // Verificar usuario común
-  const match = usuariosDB.find(u =>
-    u.usuario.toLowerCase() === user && u.password === pass
-  );
+    // Verificar usuario común
+    const match = usuariosDB.find(u =>
+      u.usuario.toLowerCase() === user && u.password === pass
+    );
 
-  if (match) {
-    document.getElementById('formLoginOverlay').style.display = 'none';
-    error.style.display = 'none';
-  } else {
-    error.textContent = usuariosDB.length === 0
-      ? '❌ No hay usuarios cargados. Contactá al administrador.'
-      : '❌ Usuario o contraseña incorrectos';
-    error.style.display = 'block';
-    document.getElementById('formLoginPass').value = '';
-    document.getElementById('formLoginPass').focus();
-  }
+    btn.textContent = 'Ingresar';
+    btn.disabled = false;
+
+    if (match) {
+      document.getElementById('formLoginOverlay').style.display = 'none';
+      error.style.display = 'none';
+    } else {
+      error.textContent = usuariosDB.length === 0
+        ? '❌ No hay usuarios cargados. Contactá al administrador.'
+        : '❌ Usuario o contraseña incorrectos';
+      error.style.display = 'block';
+      document.getElementById('formLoginPass').value = '';
+      document.getElementById('formLoginPass').focus();
+    }
+  }, 100);
 }
 
 /* ══ ADMIN: TABS ══ */
