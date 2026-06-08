@@ -981,7 +981,7 @@ const gruposPorOficina = {
 };
 
 /* ══ OFICINA SEARCH ══ */
-const OFICINAS_TOP = ['Caba','Neuquén','Mendoza'];
+const OFICINAS_TOP = ['Caba','Neuquén','Mendoza','Rafaela'];
 const OFICINAS_REST = [
   'Bahía_Blanca','Bariloche','Catamarca','Comodoro_Rivadavia','Córdoba',
   'Jujuy','La_Rioja','Mar_del_Plata','Morón','Neuquén','Paraná','Posadas',
@@ -999,26 +999,26 @@ function renderOficinaDD(items, query) {
     const tops = items.filter(o => OFICINAS_TOP.includes(o));
     const rest = items.filter(o => !OFICINAS_TOP.includes(o));
     if (tops.length) {
-      tops.forEach(o => dd.appendChild(makeOficinaOpt(o, '⭐', '')));
+      tops.forEach(o => dd.appendChild(makeOficinaOpt(o, true, '')));
       if (rest.length) {
         const sep = document.createElement('div');
         sep.style.cssText = 'height:1px;background:var(--border);margin:2px 0;';
         dd.appendChild(sep);
       }
     }
-    rest.forEach(o => dd.appendChild(makeOficinaOpt(o, '', '')));
+    rest.forEach(o => dd.appendChild(makeOficinaOpt(o, false, '')));
   } else {
-    items.forEach(o => dd.appendChild(makeOficinaOpt(o, OFICINAS_TOP.includes(o) ? '⭐' : '', query)));
+    items.forEach(o => dd.appendChild(makeOficinaOpt(o, OFICINAS_TOP.includes(o), query)));
   }
   dd.classList.add('open');
 }
 
-function makeOficinaOpt(nombre, star, query) {
+function makeOficinaOpt(nombre, isTop, query) {
   const div = document.createElement('div');
   div.className = 'ds-opt';
   const label = nombre.replace(/_/g,' ');
   const hl = query ? highlight(label, query.replace(/_/g,' ')) : label;
-  div.innerHTML = `<span class="ds-opt-name">${star ? star + ' ' : ''}${hl}</span>`;
+  div.innerHTML = `<span class="ds-opt-name" style="${isTop ? 'font-weight:700;color:var(--sec-hdr)' : ''}">${hl}</span>`;
   div.onmousedown = (e) => { e.preventDefault(); seleccionarOficina(nombre); };
   return div;
 }
