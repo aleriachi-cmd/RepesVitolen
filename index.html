@@ -1653,9 +1653,9 @@ async function exportarImagen() {
     await document.fonts.load("400 16px 'Poppins'");
 
     // Preload logo
-    const logoEl = document.querySelector('.brand img');
+    const logoEl = document.querySelector('img[alt="Vitolen"]');
     let logoImg = null;
-    if (logoEl) {
+    if (logoEl && logoEl.src) {
       logoImg = await new Promise(res => {
         const img = new Image();
         img.onload = () => res(img);
