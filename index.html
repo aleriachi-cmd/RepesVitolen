@@ -1315,6 +1315,11 @@ function procesarFilasRubros(rows, filename) {
   }
 
   rubros = nuevos;
+  // También actualizar disenios para que el buscador de Receta tenga la garantía correcta
+  disenios.forEach(d => {
+    const match = nuevos.find(r => r.cod === d.cod);
+    if (match) d.garantia = match.garantia;
+  });
   status.innerHTML = `<span style="color:var(--green);font-weight:600;">✅ ${nuevos.length} rubros cargados desde "${filename}"</span>
     ${errores.length ? `<br><span style="color:#92400e;font-size:11px;">${errores.length} filas ignoradas</span>` : ''}
     <br><button onclick="cerrarAdmin()" style="margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:7px 16px;cursor:pointer;font-size:13px;">Cerrar</button>`;
@@ -1430,12 +1435,50 @@ let loginListo = false;
 
 // Cargar logo en el login screen
 const USUARIOS_URL = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Usuarios_Repeticiones.csv';
+const RUBROS_URL   = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Rubros_Garantias.csv';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const logoEl = document.querySelector('.brand img');
   if (logoEl) document.getElementById('loginLogo').src = logoEl.src;
 
-  // Cargar usuarios desde GitHub
+  // Cargar rubros y usuarios en paralelo
+  const [, ] = await Promise.allSettled([
+    cargarRubrosDesdeGitHub(),
+    cargarUsuariosDesdeGitHub()
+  ]);
+
+  setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
+});
+
+async function cargarRubrosDesdeGitHub() {
+  try {
+    const res = await fetch(RUBROS_URL + '?t=' + Date.now());
+    if (!res.ok) return;
+    const text = await res.text();
+    const rows = text.trim().split('\n').map(r =>
+      r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
+    );
+    const startIdx = (rows[0] && isNaN(rows[0][0])) ? 1 : 0;
+    const nuevos = [];
+    rows.slice(startIdx).forEach(cols => {
+      if (!cols || !cols[0]) return;
+      const cod = cols[0].trim();
+      const nombre = cols[1] ? cols[1].trim() : '';
+      const garantia = cols[2] ? cols[2].trim() : 'SI';
+      if (cod && nombre) nuevos.push({ cod, nombre, garantia });
+    });
+    if (nuevos.length) {
+      rubros = nuevos;
+      // Actualizar también disenios con la garantía correcta
+      disenios.forEach(d => {
+        const match = nuevos.find(r => r.cod === d.cod);
+        if (match) d.garantia = match.garantia;
+      });
+    }
+  } catch(e) { /* silencioso — usa lista embebida */ }
+}
+
+async function cargarUsuariosDesdeGitHub() {
   try {
     document.getElementById('formLoginInfo').innerHTML = '⏳ Cargando usuarios...';
     document.getElementById('formLoginInfo').style.background = '#e8effe';
@@ -1477,9 +1520,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('formLoginInfo').style.background = '#fef3c7';
     document.getElementById('formLoginInfo').style.color = '#92400e';
   }
-
-  setTimeout(() => document.getElementById('formLoginUser').focus(), 300);
-});
+}
 
 function submitFormLogin() {
   const userRaw = document.getElementById('formLoginUser').value.trim();
