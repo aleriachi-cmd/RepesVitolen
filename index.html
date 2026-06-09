@@ -1302,19 +1302,19 @@ function handleAdminFile(file) {
 }
 
 async function procesarFilasRubros(rows, filename) {
-  const status = document.getElementById('adminStatus');
-  const primera = rows[0];
+  let status = document.getElementById('adminStatus');
+  let primera = rows[0];
   let startIdx = 0;
   if (primera && isNaN(primera[0]) && primera[0].toLowerCase().includes('cod')) startIdx = 1;
 
-  const nuevos = [];
-  const errores = [];
+  let nuevos = [];
+  let errores = [];
 
   rows.slice(startIdx).forEach((cols, i) => {
     if (!cols || cols.length < 2 || !cols[0]) return;
-    const cod     = String(cols[0]).trim();
-    const nombre  = String(cols[1] || '').trim();
-    const garRaw  = String(cols[2] || 'SI').trim();
+    let cod     = String(cols[0]).trim();
+    let nombre  = String(cols[1] || '').trim();
+    let garRaw  = String(cols[2] || 'SI').trim();
     // Preservar Prescripcion tal cual, normalizar NO/N, todo lo demás es SI
     let garantia = 'SI';
     if (garRaw.toLowerCase() === 'no' || garRaw.toLowerCase() === 'n') garantia = 'NO';
@@ -1330,7 +1330,7 @@ async function procesarFilasRubros(rows, filename) {
 
   rubros = nuevos;
   disenios.forEach(d => {
-    const matchR = nuevos.find(r => r.cod === d.cod);
+    let matchR = nuevos.find(r => r.cod === d.cod);
     if (matchR) d.garantia = matchR.garantia;
   });
 
@@ -1338,7 +1338,7 @@ async function procesarFilasRubros(rows, filename) {
     ${errores.length ? `<br><span style="color:#92400e;font-size:11px;">${errores.length} filas ignoradas</span>` : ''}`;
 
   // Guardar en GitHub si hay token
-  const ghToken = document.getElementById('githubToken').value.trim();
+  let ghToken = document.getElementById('githubToken').value.trim();
   if (ghToken) {
     await guardarRubrosEnGitHub(nuevos, filename, ghToken, status);
   } else {
@@ -1354,7 +1354,7 @@ async function procesarFilasRubros(rows, filename) {
   rubros = nuevos;
   // También actualizar disenios para que el buscador de Receta tenga la garantía correcta
   disenios.forEach(d => {
-    const matchR = nuevos.find(r => r.cod === d.cod);
+    let matchR = nuevos.find(r => r.cod === d.cod);
     if (matchR) d.garantia = matchR.garantia;
   });
 
@@ -1365,15 +1365,15 @@ function togglePill(el, type, name) {
 }
 
 function toggleReceta() {
-  const cb = document.getElementById('recetaToggle');
+  let cb = document.getElementById('recetaToggle');
   document.getElementById('recetaBody').classList.toggle('open', cb.checked);
   document.getElementById('recetaLabel').textContent = cb.checked ? 'Con cambio' : 'Sin cambio';
 }
 
 function autoAbrirReceta() {
-  const motivo = document.getElementById('motivo').value;
-  const esMotivo55o56 = /^5[56]\s*-/.test(motivo);
-  const cb = document.getElementById('recetaToggle');
+  let motivo = document.getElementById('motivo').value;
+  let esMotivo55o56 = /^5[56]\s*-/.test(motivo);
+  let cb = document.getElementById('recetaToggle');
   if (esMotivo55o56 && !cb.checked) {
     cb.checked = true;
     toggleReceta();
@@ -1390,9 +1390,9 @@ function toggleTrabajos() {
 
 /* ══ OFFICE DETECTION ══ */
 function verificarOffice() {
-  const rubroNombre = document.getElementById('rubroNombre').value || '';
-  const disenoNombre = document.getElementById('nombreDisenyo').value || '';
-  const esOffice = /OFFICE/i.test(rubroNombre) || /OFFICE/i.test(disenoNombre);
+  let rubroNombre = document.getElementById('rubroNombre').value || '';
+  let disenoNombre = document.getElementById('nombreDisenyo').value || '';
+  let esOffice = /OFFICE/i.test(rubroNombre) || /OFFICE/i.test(disenoNombre);
   document.getElementById('rpiCampoWrap').style.display = esOffice ? 'grid' : 'none';
   if (!esOffice) {
     document.getElementById('rpi').value = '';
@@ -1406,21 +1406,21 @@ function verificarOffice() {
 /* ══ DISEÑO SEARCH ══ */
 function highlight(text, query) {
   if (!query) return text;
-  const esc = query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  let esc = query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   return text.replace(new RegExp(`(${esc})`,'gi'),'<mark>$1</mark>');
 }
 function filtrarDiseno() {
-  const q = document.getElementById('disenoSearch').value.trim();
-  const dd = document.getElementById('ddDiseno');
+  let q = document.getElementById('disenoSearch').value.trim();
+  let dd = document.getElementById('ddDiseno');
   if (!q) { dd.classList.remove('open'); return; }
-  const esNum = /^\d+$/.test(q);
+  let esNum = /^\d+$/.test(q);
   let f = esNum
     ? [...disenios.filter(d=>d.cod.startsWith(q)), ...disenios.filter(d=>!d.cod.startsWith(q)&&d.nombre.toLowerCase().includes(q))]
     : disenios.filter(d=>d.nombre.toLowerCase().includes(q.toLowerCase())||d.cod.includes(q));
   dd.innerHTML='';
   if (!f.length) { dd.classList.remove('open'); return; }
   f.slice(0,50).forEach(d=>{
-    const div=document.createElement('div'); div.className='ds-opt';
+    let div=document.createElement('div'); div.className='ds-opt';
     div.innerHTML=`<span class="ds-opt-cod">${d.cod}</span><span class="ds-opt-name">${highlight(d.nombre,q)}</span>`;
     div.onmousedown=(e)=>{e.preventDefault();seleccionarDisenio(d);};
     dd.appendChild(div);
@@ -1433,7 +1433,7 @@ function seleccionarDisenio(d){
   document.getElementById('nombreDisenyo').value=d.nombre;
   document.getElementById('disenoSearch').value=d.nombre;
   document.getElementById('disenoSearch').readOnly=true;
-  const pill=document.getElementById('codPill'); pill.textContent=d.cod; pill.classList.add('v');
+  let pill=document.getElementById('codPill'); pill.textContent=d.cod; pill.classList.add('v');
   document.getElementById('designClearBtn').style.display='flex';
   document.getElementById('ddDiseno').classList.remove('open');
   verificarOffice();
@@ -1452,8 +1452,8 @@ function limpiarDiseno(){
 /* ══ SISTEMA DE LOGIN ══ */
 
 // Credenciales admin
-const _au = 'YWRtaW4=';
-const _ap = 'YWRtaW43ODY=';
+let _au = 'YWRtaW4=';
+let _ap = 'YWRtaW43ODY=';
 
 function checkAdmin(user, pass) {
   try {
@@ -1467,15 +1467,15 @@ let usuariosDB = [];
 let loginListo = false;
 
 // Cargar logo en el login screen
-const USUARIOS_URL = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Usuarios_Repeticiones.csv';
-const RUBROS_URL   = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Rubros_Garantias.csv';
+let USUARIOS_URL = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Usuarios_Repeticiones.csv';
+let RUBROS_URL   = 'https://raw.githubusercontent.com/aleriachi-cmd/RepesVitolen/main/Rubros_Garantias.csv';
 
 window.addEventListener('DOMContentLoaded', async () => {
-  const logoEl = document.querySelector('.brand img');
+  let logoEl = document.querySelector('.brand img');
   if (logoEl) document.getElementById('loginLogo').src = logoEl.src;
 
   // Cargar rubros y usuarios en paralelo
-  const [, ] = await Promise.allSettled([
+  let [, ] = await Promise.allSettled([
     cargarRubrosDesdeGitHub(),
     cargarUsuariosDesdeGitHub()
   ]);
@@ -1485,26 +1485,26 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 async function cargarRubrosDesdeGitHub() {
   try {
-    const res = await fetch(RUBROS_URL + '?t=' + Date.now());
+    let res = await fetch(RUBROS_URL + '?t=' + Date.now());
     if (!res.ok) return;
-    const text = await res.text();
-    const rows = text.trim().split('\n').map(r =>
+    let text = await res.text();
+    let rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
-    const startIdx = (rows[0] && isNaN(rows[0][0])) ? 1 : 0;
-    const nuevos = [];
+    let startIdx = (rows[0] && isNaN(rows[0][0])) ? 1 : 0;
+    let nuevos = [];
     rows.slice(startIdx).forEach(cols => {
       if (!cols || !cols[0]) return;
-      const cod = cols[0].trim();
-      const nombre = cols[1] ? cols[1].trim() : '';
-      const garantia = cols[2] ? cols[2].trim() : 'SI';
+      let cod = cols[0].trim();
+      let nombre = cols[1] ? cols[1].trim() : '';
+      let garantia = cols[2] ? cols[2].trim() : 'SI';
       if (cod && nombre) nuevos.push({ cod, nombre, garantia });
     });
     if (nuevos.length) {
       rubros = nuevos;
       // Actualizar también disenios con la garantía correcta
       disenios.forEach(d => {
-        const match = nuevos.find(r => r.cod === d.cod);
+        let match = nuevos.find(r => r.cod === d.cod);
         if (match) d.garantia = match.garantia;
       });
     }
@@ -1517,26 +1517,26 @@ async function cargarUsuariosDesdeGitHub() {
     document.getElementById('formLoginInfo').style.background = '#e8effe';
     document.getElementById('formLoginInfo').style.color = 'var(--sec-hdr)';
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    let controller = new AbortController();
+    let timeout = setTimeout(() => controller.abort(), 8000);
 
-    const res = await fetch(USUARIOS_URL + '?t=' + Date.now(), {
+    let res = await fetch(USUARIOS_URL + '?t=' + Date.now(), {
       signal: controller.signal
     });
     clearTimeout(timeout);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    const rows = text.trim().split('\n').map(r =>
+    let text = await res.text();
+    let rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
-    const firstCell = rows[0] && rows[0][0] ? rows[0][0].toLowerCase() : '';
-    const startIdx = (firstCell.includes('usu') || firstCell.includes('log') || firstCell.includes('user')) ? 1 : 0;
+    let firstCell = rows[0] && rows[0][0] ? rows[0][0].toLowerCase() : '';
+    let startIdx = (firstCell.includes('usu') || firstCell.includes('log') || firstCell.includes('user')) ? 1 : 0;
     usuariosDB = [];
     rows.slice(startIdx).forEach(cols => {
       if (!cols || !cols[0]) return;
-      const usuario = cols[0].trim().toLowerCase();
-      const password = (cols[1] && cols[1].trim()) ? cols[1].trim().toLowerCase() : usuario;
+      let usuario = cols[0].trim().toLowerCase();
+      let password = (cols[1] && cols[1].trim()) ? cols[1].trim().toLowerCase() : usuario;
       if (usuario) usuariosDB.push({ usuario, password });
     });
 
@@ -1556,12 +1556,12 @@ async function cargarUsuariosDesdeGitHub() {
 }
 
 function submitFormLogin() {
-  const userRaw = document.getElementById('formLoginUser').value.trim();
-  const passRaw = document.getElementById('formLoginPass').value.trim();
-  const user = userRaw.toLowerCase();
-  const pass = passRaw;
-  const error = document.getElementById('formLoginError');
-  const btn = document.querySelector('#formLoginOverlay button');
+  let userRaw = document.getElementById('formLoginUser').value.trim();
+  let passRaw = document.getElementById('formLoginPass').value.trim();
+  let user = userRaw.toLowerCase();
+  let pass = passRaw;
+  let error = document.getElementById('formLoginError');
+  let btn = document.querySelector('#formLoginOverlay button');
 
   if (!user || !pass) {
     error.textContent = '❌ Completá usuario y contraseña';
@@ -1586,7 +1586,7 @@ function submitFormLogin() {
     }
 
     // Verificar usuario común
-    const match = usuariosDB.find(u =>
+    let match = usuariosDB.find(u =>
       u.usuario === user && u.password === pass.toLowerCase()
     );
 
@@ -1610,7 +1610,7 @@ function submitFormLogin() {
 
 /* ══ ADMIN: TABS ══ */
 function switchAdminTab(tab) {
-  const isRubros = tab === 'rubros';
+  let isRubros = tab === 'rubros';
   document.getElementById('tabRubros').style.display = isRubros ? 'block' : 'none';
   document.getElementById('tabUsuarios').style.display = isRubros ? 'none' : 'block';
   document.getElementById('tabRubrosBtn').style.background = isRubros ? 'var(--accent)' : '#fff';
@@ -1623,18 +1623,18 @@ function switchAdminTab(tab) {
 function handleUsuariosDrop(e) {
   e.preventDefault();
   document.getElementById('usuariosDropZone').style.borderColor = 'var(--border)';
-  const file = e.dataTransfer.files[0];
+  let file = e.dataTransfer.files[0];
   if (file) handleUsuariosFile(file);
 }
 
 function handleUsuariosFile(file) {
   if (!file) return;
-  const status = document.getElementById('usuariosStatus');
+  let status = document.getElementById('usuariosStatus');
   status.innerHTML = '<span style="color:var(--text-muted)">⏳ Procesando...</span>';
-  const reader = new FileReader();
+  let reader = new FileReader();
   reader.onload = e => {
     try {
-      const rows = e.target.result.split('\n').map(r =>
+      let rows = e.target.result.split('\n').map(r =>
         r.split(/[;,]/).map(c => c.trim().replace(/^"|"$/g,''))
       );
       procesarUsuarios(rows, file.name);
@@ -1646,17 +1646,17 @@ function handleUsuariosFile(file) {
 }
 
 function procesarUsuarios(rows, filename) {
-  const status = document.getElementById('usuariosStatus');
+  let status = document.getElementById('usuariosStatus');
   // Detectar si primera fila es header
-  const primera = rows[0];
+  let primera = rows[0];
   let startIdx = (primera && isNaN(primera[0]) && primera[0].toLowerCase().includes('usu')) ? 1 : 0;
 
-  const nuevos = [];
+  let nuevos = [];
   rows.slice(startIdx).forEach(cols => {
     if (!cols || !cols[0]) return;
-    const usuario = cols[0].trim().toLowerCase();
+    let usuario = cols[0].trim().toLowerCase();
     // Si no hay contraseña en col B, usar el mismo usuario como pass
-    const password = (cols[1] && cols[1].trim()) ? cols[1].trim() : usuario;
+    let password = (cols[1] && cols[1].trim()) ? cols[1].trim() : usuario;
     if (usuario) nuevos.push({ usuario, password });
   });
 
@@ -1681,24 +1681,24 @@ async function guardarRubrosEnGitHub(rubrosData, filename, token, statusEl) {
   try {
     statusEl.innerHTML += `<br><span style="color:var(--text-muted);">⏳ Guardando en GitHub...</span>`;
 
-    const REPO = 'aleriachi-cmd/RepesVitolen';
-    const FILE = 'Rubros_Garantias.csv';
-    const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+    let REPO = 'aleriachi-cmd/RepesVitolen';
+    let FILE = 'Rubros_Garantias.csv';
+    let API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
 
     // Obtener SHA actual del archivo
-    const getRes = await fetch(API, {
+    let getRes = await fetch(API, {
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!getRes.ok) throw new Error(`No se pudo leer el archivo (${getRes.status})`);
-    const getJson = await getRes.json();
-    const sha = getJson.sha;
+    let getJson = await getRes.json();
+    let sha = getJson.sha;
 
     // Generar contenido CSV
-    const csvContent = 'Codigo;Nombre;Garantia\n' +
+    let csvContent = 'Codigo;Nombre;Garantia\n' +
       rubrosData.map(r => `${r.cod};${r.nombre};${r.garantia}`).join('\n');
 
     // Subir a GitHub
-    const putRes = await fetch(API, {
+    let putRes = await fetch(API, {
       method: 'PUT',
       headers: {
         'Authorization': `token ${token}`,
@@ -1713,7 +1713,7 @@ async function guardarRubrosEnGitHub(rubrosData, filename, token, statusEl) {
     });
 
     if (!putRes.ok) {
-      const err = await putRes.json();
+      let err = await putRes.json();
       throw new Error(err.message || putRes.status);
     }
 
@@ -1725,7 +1725,7 @@ async function guardarRubrosEnGitHub(rubrosData, filename, token, statusEl) {
     statusEl.innerHTML += `<br><span style="color:var(--red);">❌ Error al guardar en GitHub: ${e.message}</span>`;
   }
 }
-  const lista = document.getElementById('usuariosLista');
+  let lista = document.getElementById('usuariosLista');
   lista.innerHTML = `
     <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-family:'DM Mono',monospace;">
       Usuarios activos (${nuevos.length})
@@ -1753,13 +1753,13 @@ function nuevaRepeticion() {
   ['nroTrabajo','detalle','observacion','od_esf','od_cil','od_eje',
    'oi_esf','oi_cil','oi_eje','dnp_od','dnp_oi','alt_od','alt_oi',
    'largo','altura','diag','puente','caracteristicas'].forEach(id => {
-    const el = document.getElementById(id);
+    let el = document.getElementById(id);
     if (el) el.value = '';
   });
 
   // Selects
   ['motivo','rpi','tratamiento','forma'].forEach(id => {
-    const el = document.getElementById(id);
+    let el = document.getElementById(id);
     if (el) { el.value = ''; el.disabled = true; el.style.opacity = '.5'; el.style.cursor = 'not-allowed'; }
   });
   document.getElementById('motivo').innerHTML = '<option value="">— Seleccioná rubro y ojo primero —</option>';
@@ -1772,7 +1772,7 @@ function nuevaRepeticion() {
 
   // Toggles
   ['recetaToggle','armazonToggle','trabajosToggle'].forEach(id => {
-    const el = document.getElementById(id);
+    let el = document.getElementById(id);
     if (el) el.checked = false;
   });
   document.getElementById('recetaBody').classList.remove('open');
@@ -1798,22 +1798,22 @@ function nuevaRepeticion() {
 
 /* ══ EXPORT ══ */
 async function exportarImagen() {
-  const overlay = document.getElementById('print-overlay');
+  let overlay = document.getElementById('print-overlay');
   overlay.classList.add('visible');
   await new Promise(r => setTimeout(r, 200));
 
   try {
-    const nroTrabajo= document.getElementById('nroTrabajo').value || '';
-    const rubroOrigen = document.getElementById('rubroNombre').value || '—';
-    const rubroCodOrigen = document.getElementById('rubroCod').value || '';
-    const rubroGar = document.getElementById('rubroGarantia').value || '—';
-    const oficina   = document.getElementById('oficina').value || '—';
-    const ojo       = document.querySelector('input[name="ojo"]:checked')?.value || '—';
-    const motivo    = document.getElementById('motivo').value || '—';
-    const detalle   = document.getElementById('detalle').value || '—';
+    let nroTrabajo= document.getElementById('nroTrabajo').value || '';
+    let rubroOrigen = document.getElementById('rubroNombre').value || '—';
+    let rubroCodOrigen = document.getElementById('rubroCod').value || '';
+    let rubroGar = document.getElementById('rubroGarantia').value || '—';
+    let oficina   = document.getElementById('oficina').value || '—';
+    let ojo       = document.querySelector('input[name="ojo"]:checked')?.value || '—';
+    let motivo    = document.getElementById('motivo').value || '—';
+    let detalle   = document.getElementById('detalle').value || '—';
 
     // ── Validación campos obligatorios ──
-    const errores = [];
+    let errores = [];
     if (!nroTrabajo)                                    errores.push('N° Trabajo Online');
     if (!document.getElementById('oficina').value)      errores.push('Oficina Responsable');
     if (!document.querySelector('input[name="ojo"]:checked')) errores.push('Ojo a Repetir');
@@ -1827,65 +1827,65 @@ async function exportarImagen() {
       return;
     }
     document.getElementById('validacionBanner').style.display = 'none';
-    const codD      = document.getElementById('codDisenyo').value || '—';
-    const nomD      = document.getElementById('nombreDisenyo').value || '—';
-    const stock     = '—';
-    const odEsf     = document.getElementById('od_esf').value || '—';
-    const odCil     = document.getElementById('od_cil').value || '—';
-    const odEje     = document.getElementById('od_eje').value || '—';
-    const oiEsf     = document.getElementById('oi_esf').value || '—';
-    const oiCil     = document.getElementById('oi_cil').value || '—';
-    const oiEje     = document.getElementById('oi_eje').value || '—';
-    const addOd     = document.getElementById('add_od').value || '—';
-    const addOi     = document.getElementById('add_oi').value || '—';
-    const rpi       = document.getElementById('rpi').value || '—';
-    const campo     = document.querySelector('input[name="campo"]:checked')?.value || '—';
-    const armazonOn = document.getElementById('armazonToggle').checked;
-    const dnpOd     = document.getElementById('dnp_od').value || '—';
-    const dnpOi     = document.getElementById('dnp_oi').value || '—';
-    const altOd     = document.getElementById('alt_od').value || '—';
-    const altOi     = document.getElementById('alt_oi').value || '—';
-    const largo     = document.getElementById('largo').value || '—';
-    const alturaA   = document.getElementById('altura').value || '—';
-    const diag      = document.getElementById('diag').value || '—';
-    const puente    = document.getElementById('puente').value || '—';
-    const caract    = document.getElementById('caracteristicas').value || '—';
-    const forma     = document.getElementById('forma').value || '—';
-    const trabajosOn= document.getElementById('trabajosToggle').checked;
-    const trat      = document.getElementById('tratamiento').value || '—';
-    const calib     = document.querySelector('input[name="calibrado"]:checked')?.value || '—';
-    const trazado   = document.querySelector('input[name="trazado"]:checked')?.value || '—';
-    const obs       = document.getElementById('observacion').value || '—';
-    const fechaHoy  = new Date().toLocaleDateString('es-AR');
+    let codD      = document.getElementById('codDisenyo').value || '—';
+    let nomD      = document.getElementById('nombreDisenyo').value || '—';
+    let stock     = '—';
+    let odEsf     = document.getElementById('od_esf').value || '—';
+    let odCil     = document.getElementById('od_cil').value || '—';
+    let odEje     = document.getElementById('od_eje').value || '—';
+    let oiEsf     = document.getElementById('oi_esf').value || '—';
+    let oiCil     = document.getElementById('oi_cil').value || '—';
+    let oiEje     = document.getElementById('oi_eje').value || '—';
+    let addOd     = document.getElementById('add_od').value || '—';
+    let addOi     = document.getElementById('add_oi').value || '—';
+    let rpi       = document.getElementById('rpi').value || '—';
+    let campo     = document.querySelector('input[name="campo"]:checked')?.value || '—';
+    let armazonOn = document.getElementById('armazonToggle').checked;
+    let dnpOd     = document.getElementById('dnp_od').value || '—';
+    let dnpOi     = document.getElementById('dnp_oi').value || '—';
+    let altOd     = document.getElementById('alt_od').value || '—';
+    let altOi     = document.getElementById('alt_oi').value || '—';
+    let largo     = document.getElementById('largo').value || '—';
+    let alturaA   = document.getElementById('altura').value || '—';
+    let diag      = document.getElementById('diag').value || '—';
+    let puente    = document.getElementById('puente').value || '—';
+    let caract    = document.getElementById('caracteristicas').value || '—';
+    let forma     = document.getElementById('forma').value || '—';
+    let trabajosOn= document.getElementById('trabajosToggle').checked;
+    let trat      = document.getElementById('tratamiento').value || '—';
+    let calib     = document.querySelector('input[name="calibrado"]:checked')?.value || '—';
+    let trazado   = document.querySelector('input[name="trazado"]:checked')?.value || '—';
+    let obs       = document.getElementById('observacion').value || '—';
+    let fechaHoy  = new Date().toLocaleDateString('es-AR');
 
     // Preload Poppins so canvas can use it
     await document.fonts.load("700 16px 'Poppins'");
     await document.fonts.load("400 16px 'Poppins'");
 
     // Preload logo
-    const logoEl = document.querySelector('img[alt="Vitolen"]');
+    let logoEl = document.querySelector('img[alt="Vitolen"]');
     let logoImg = null;
     if (logoEl && logoEl.src) {
       logoImg = await new Promise(res => {
-        const img = new Image();
+        let img = new Image();
         img.onload = () => res(img);
         img.onerror = () => res(null);
         img.src = logoEl.src;
       });
     }
 
-    const SC   = 2;
-    const W    = 620 * SC;
-    const PAD  = 16 * SC;
-    const col  = {
+    let SC   = 2;
+    let W    = 620 * SC;
+    let PAD  = 16 * SC;
+    let col  = {
       bg:'#ffffff', hdr:'#1a3a6e', hdrText:'#ffffff',
       rowA:'#eef2fb', rowB:'#ffffff', border:'#b0bcd4',
       sLabel:'#2a4a8e', text:'#1a1d23', muted:'#666'
     };
-    const lh   = 19 * SC;
-    const thH  = 15 * SC;
-    const tdH  = 19 * SC;
-    const sh   = 15 * SC;
+    let lh   = 19 * SC;
+    let thH  = 15 * SC;
+    let tdH  = 19 * SC;
+    let sh   = 15 * SC;
 
     function fnt(sz, bold) {
       return `${bold?'700':'400'} ${sz*SC}px 'Poppins',sans-serif`;
@@ -1904,16 +1904,16 @@ async function exportarImagen() {
       }
 
       // ── Page header ──
-      const hh = 54 * SC;
+      let hh = 54 * SC;
       if (!dryRun) {
         ctx.fillStyle = col.hdr;
         ctx.fillRect(0, y, W, hh);
         if (logoImg) {
-          const logoH = 30 * SC;
-          const logoW = logoImg.width * logoH / logoImg.height;
-          const logoPad = 5 * SC;
-          const logoX = PAD;
-          const logoY = y + (hh - logoH) / 2;
+          let logoH = 30 * SC;
+          let logoW = logoImg.width * logoH / logoImg.height;
+          let logoPad = 5 * SC;
+          let logoX = PAD;
+          let logoY = y + (hh - logoH) / 2;
           // Fondo blanco sólido
           ctx.fillStyle = '#ffffff';
           ctx.beginPath();
@@ -1935,7 +1935,7 @@ async function exportarImagen() {
 
       // N° Trabajo Online — banner destacado
       if (nroTrabajo) {
-        const bh = 36 * SC;
+        let bh = 36 * SC;
         if (!dryRun) {
           ctx.fillStyle = '#e8effe';
           ctx.fillRect(0, y, W, bh);
@@ -1977,7 +1977,7 @@ async function exportarImagen() {
 
       function dataRow(label, value, alt) {
         if (String(value).trim() === '—' || String(value).trim() === '') return; // omitir vacíos
-        const LW = 155 * SC;
+        let LW = 155 * SC;
         if (!dryRun) {
           ctx.fillStyle = alt ? col.rowA : col.rowB;
           ctx.fillRect(PAD, y, W-PAD*2, lh);
@@ -1998,7 +1998,7 @@ async function exportarImagen() {
           // value text (clip)
           ctx.fillStyle = col.text;
           ctx.font = fnt(8.5, false);
-          const maxW = W - PAD*2 - LW - 10*SC;
+          let maxW = W - PAD*2 - LW - 10*SC;
           ctx.save();
           ctx.beginPath();
           ctx.rect(PAD + LW + 6*SC, y, maxW, lh);
@@ -2010,8 +2010,8 @@ async function exportarImagen() {
       }
 
       function recTable(eyeLabels, cols) {
-        const eyeW  = 40 * SC;
-        const dataW = (W - PAD*2 - eyeW) / cols.length;
+        let eyeW  = 40 * SC;
+        let dataW = (W - PAD*2 - eyeW) / cols.length;
         // header
         if (!dryRun) {
           ctx.fillStyle = '#d5dff7';
@@ -2067,8 +2067,8 @@ async function exportarImagen() {
       dataRow('Detalle de Repetición', detalle, true);
 
       y += 6 * SC;
-      const recetaOn = document.getElementById('recetaToggle').checked;
-      const hayDatosReceta = recetaOn && (
+      let recetaOn = document.getElementById('recetaToggle').checked;
+      let hayDatosReceta = recetaOn && (
         codD || nomD ||
         odEsf || odCil || odEje ||
         oiEsf || oiCil || oiEje ||
@@ -2080,19 +2080,19 @@ async function exportarImagen() {
         secHead('Receta');
         if (codD || nomD) dataRow('Cod. Diseño', `${codD}  —  ${nomD}`, false);
 
-        const colsReceta = [
+        let colsReceta = [
           {label:'ESF', vals:[odEsf||'—', oiEsf||'—']},
           {label:'CIL', vals:[odCil||'—', oiCil||'—']},
           {label:'EJE', vals:[odEje ? odEje+'°':'—', oiEje ? oiEje+'°':'—']},
           {label:'ADD', vals:[addOd||'—', addOi||'—']},
         ];
-        const hayGraduaciones = colsReceta.some(col => col.vals.some(v => v !== '—'));
+        let hayGraduaciones = colsReceta.some(col => col.vals.some(v => v !== '—'));
         if (hayGraduaciones) recTable(['OD','OI'], colsReceta);
         dataRow('RPI', rpi, false);
         dataRow('Campo de Profundidad', campo, true);
       }
 
-      const hayArmazon = dnpOd !== '—' || dnpOi !== '—' || altOd !== '—' || altOi !== '—' ||
+      let hayArmazon = dnpOd !== '—' || dnpOi !== '—' || altOd !== '—' || altOi !== '—' ||
         (armazonOn && (largo !== '—' || alturaA !== '—' || diag !== '—' || puente !== '—' || caract !== '—' || forma !== '—'));
 
       if (hayArmazon) {
@@ -2109,7 +2109,7 @@ async function exportarImagen() {
         }
       }
 
-      const hayTrabajos = trabajosOn && (trat !== '—' || calib !== '—' || trazado !== '—');
+      let hayTrabajos = trabajosOn && (trat !== '—' || calib !== '—' || trazado !== '—');
       if (hayTrabajos) {
         y += 6 * SC;
         secHead('Trabajos');
@@ -2129,21 +2129,21 @@ async function exportarImagen() {
     }
 
     // Dry run on temp canvas to measure height
-    const tmpC = document.createElement('canvas');
+    let tmpC = document.createElement('canvas');
     tmpC.width = W; tmpC.height = 2000 * SC;
-    const tmpCtx = tmpC.getContext('2d');
-    const totalH = render(tmpCtx, true);
+    let tmpCtx = tmpC.getContext('2d');
+    let totalH = render(tmpCtx, true);
 
     // Real canvas
-    const C = document.createElement('canvas');
+    let C = document.createElement('canvas');
     C.width = W; C.height = totalH;
-    const ctx = C.getContext('2d');
+    let ctx = C.getContext('2d');
     ctx.fillStyle = col.bg;
     ctx.fillRect(0, 0, W, totalH);
     render(ctx, false);
 
-    const link = document.createElement('a');
-    const ofSlug = oficina.replace(/\s+/g,'_');
+    let link = document.createElement('a');
+    let ofSlug = oficina.replace(/\s+/g,'_');
     link.download = `repeticion_${ofSlug}_${new Date().toISOString().slice(0,10)}.png`;
     link.href = C.toDataURL('image/png');
     link.click();
