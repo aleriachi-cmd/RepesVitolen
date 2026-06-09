@@ -1124,13 +1124,22 @@ function actualizarMotivos() {
   sel.innerHTML = '<option value="">— Seleccionar —</option>';
   if (!oficina) return;
 
-  const tieneGarantia = rubroGarantia !== 'NO';
+  const rubroGarantia = document.getElementById('rubroGarantia').value;
+  // Tres niveles:
+  // SI          → todos los motivos
+  // Prescripcion → solo motivo 56 del rango 55-65 (bloquea 55, 57-65)
+  // NO           → ninguno del rango 55-65
+  const MOTIVO_56_RE = /^56\s*-/;
+
   let lista = oficinasEspeciales.includes(oficina)
     ? motivosPorOficina[oficina]
     : motivosPorOficina[gruposPorOficina[oficina] || 'GRUPO1'];
 
   lista.forEach(m => {
-    if (!tieneGarantia && MOTIVOS_GARANTIA_RE.test(m)) return;
+    if (MOTIVOS_GARANTIA_RE.test(m)) {
+      if (rubroGarantia === 'NO') return; // bloquear todos 55-65
+      if (rubroGarantia === 'Prescripcion' && !MOTIVO_56_RE.test(m)) return; // solo dejar 56
+    }
     const o = document.createElement('option');
     o.value = m; o.textContent = m; sel.appendChild(o);
   });
@@ -1181,6 +1190,11 @@ function seleccionarRubro(d) {
     badge.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;background:#dcfce7;color:#16a34a;border:1px solid #86efac;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap;">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       C/ Garantía
+    </span>`;
+  } else if (d.garantia === 'Prescripcion') {
+    badge.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Solo Prescripción (mot. 56)
     </span>`;
   } else {
     badge.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap;">
