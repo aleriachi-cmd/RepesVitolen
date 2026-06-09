@@ -1442,13 +1442,17 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('formLoginInfo').style.background = '#e8effe';
     document.getElementById('formLoginInfo').style.color = 'var(--sec-hdr)';
 
-    const res = await fetch(USUARIOS_URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error('No se pudo cargar el archivo');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    const res = await fetch(USUARIOS_URL + '?t=' + Date.now(), { signal: controller.signal });
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
     const rows = text.trim().split('\n').map(r =>
-      r.split(/[;,]/).map(c => c.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
+      r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
-    // Detectar header
     const startIdx = (rows[0] && rows[0][0].toLowerCase().includes('usu')) ? 1 : 0;
     usuariosDB = [];
     rows.slice(startIdx).forEach(cols => {
@@ -1458,11 +1462,15 @@ window.addEventListener('DOMContentLoaded', async () => {
       if (usuario) usuariosDB.push({ usuario, password });
     });
 
-    document.getElementById('formLoginInfo').innerHTML = `✅ ${usuariosDB.length} usuarios disponibles`;
-    document.getElementById('formLoginInfo').style.background = '#dcfce7';
-    document.getElementById('formLoginInfo').style.color = '#16a34a';
+    if (usuariosDB.length > 0) {
+      document.getElementById('formLoginInfo').innerHTML = `✅ ${usuariosDB.length} usuarios disponibles`;
+      document.getElementById('formLoginInfo').style.background = '#dcfce7';
+      document.getElementById('formLoginInfo').style.color = '#16a34a';
+    } else {
+      throw new Error('Lista vacía');
+    }
   } catch(e) {
-    // Si no hay archivo todavía, solo el admin puede entrar
+    // Si falla la carga, solo el admin puede entrar
     document.getElementById('formLoginInfo').innerHTML = '⚠️ Sin lista de usuarios. Solo admin puede ingresar.';
     document.getElementById('formLoginInfo').style.background = '#fef3c7';
     document.getElementById('formLoginInfo').style.color = '#92400e';
