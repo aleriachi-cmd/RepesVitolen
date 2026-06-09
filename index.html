@@ -1346,18 +1346,6 @@ async function procesarFilasRubros(rows, filename) {
   }
 }
 
-  if (!nuevos.length) {
-    status.innerHTML = `<span style="color:var(--red)">❌ No se encontraron rubros válidos.</span>`;
-    return;
-  }
-
-  rubros = nuevos;
-  // También actualizar disenios para que el buscador de Receta tenga la garantía correcta
-  disenios.forEach(d => {
-    let matchR = nuevos.find(r => r.cod === d.cod);
-    if (matchR) d.garantia = matchR.garantia;
-  });
-
 function togglePill(el, type, name) {
   if (type === 'radio')
     document.querySelectorAll(`input[name="${name}"]`).forEach(i => i.closest('.pill').classList.remove('checked'));
