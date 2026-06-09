@@ -1,0 +1,465 @@
+Codigo;Nombre;Garantia
+175;Drivewear Trivex Transitions Neutro Stock;NO
+1121;Photo Lite Fotosensible Orgánico Stock c/AR;NO
+3100;Mineral Blanco Stock;NO
+3125;Mineral Photo Gris Stock;NO
+3400;Vitorganic Blanco Stock;NO
+3404;Amplitude SELECTIVE Stock;SI
+3406;Amplitude SUNMATIC Gris Stock;SI
+3410;Amplitude HD Stock;SI
+3412;Amplitude HD Stock Rango Extendido;SI
+3415;Control Blue Stock;NO
+3416;Control Blue Rango Extendido Stock;NO
+3417;Amplitude SUNMATIC Fashion Azul Neutro Stock;SI
+3418;Amplitude SUNMATIC Fashion Rosado Neutro Stock;SI
+3419;Amplitude SUNMATIC Fashion Café Neutro Stock;SI
+3420;AR Lite Orgánico Stock;NO
+3421;Amplitude SUNMATIC Fashion Gris Neutro Stock;SI
+3426;AR Lite Orgánico Stock Rango Extendido;NO
+3460;Polarizado Gris Neutro Orgánico Stock;NO
+3462;Polarizado Cafe Neutro Orgánico Stock;NO
+3464;Polarizado G15 Neutro Orgánico Stock;NO
+3465;Orgánico Solar Uniforme Gris Neutro Stock;NO
+3466;Orgánico Solar Degradé Gris Neutro Stock;NO
+3470;Orgánico Solar Uniforme Café Neutro Stock;NO
+3471;Orgánico Solar Degradé Café Neutro Stock;NO
+3475;Orgánico Solar Uniforme G15 Neutro Stock;NO
+3490;Amplitude HD Dual Blue Stock;SI
+3492;Amplitude HD Dual Blue Stock Rango Extendido;SI
+3500;HOYA 1.50 CLEAR c/AR SUPER HI-VISION STOCK;SI
+3550;Photo Lite GEN 2 Fotosensible Orgánico Stock c/AR;NO
+3560;Amplitude OFFICE Stock;SI
+3625;Poly Lite Policarbonato Stock c/AR.;NO
+4000;PENTAX ASF 1.60 SENSITY GREY STOCK;SI
+5000;Amplitude UHD 1.50 Orgánico Blanco;SI
+5002;Amplitude UHD 1.50 Orgánico Smart Control;SI
+5004;Amplitude UHD 1.50 Orgánico SUNMATIC Gris;SI
+5005;Amplitude UHD 1.50 Orgánico SUNMATIC Café;SI
+5006;Amplitude UHD 1.50 Orgánico SUNMATIC Café;SI
+5007;Amplitude UHD 1.50 Orgánico SUNMATIC Rosado;SI
+5014;Amplitude UHD 1.50 Orgánico Polarizado Gris;SI
+5016;Amplitude UHD 1.50 Orgánico Polarizado Café;SI
+5018;Amplitude UHD 1.50 Orgánico Polarizado G15;SI
+5020;Amplitude UHD 1.50 Orgánico Polarizado Gris Espejado Plata;SI
+5022;Amplitude UHD 1.50 Orgánico Polarizado Gris Espejado Azul;SI
+5024;Amplitude UHD 1.50 Orgánico Polarizado Marron Espejado Dorado;SI
+5026;Amplitude UHD 1.50 Orgánico Drivewear Polarizado Transitions;SI
+5028;Amplitude UHD 1.53 Trivex Blanco;SI
+5032;Amplitude UHD 1.59 Policarbonato Blanco;SI
+5033;Amplitude UHD 1.59 Policarbonato Smart Control;SI
+5034;Amplitude UHD 1.59 Poli Foto Neochromes Gris;SI
+5035;Amplitude UHD 1.59 Polarizado Polarizado Café ((USO INTERNO));SI
+5036;Amplitude UHD 1.60 MR-8 Blanco;SI
+5038;Amplitude UHD 1.60 MR-8 Control Blue;SI
+5039;Amplitude UHD 1.60 MR-8 SUNMATIC Gris;SI
+5040;Amplitude UHD 1.67 Orgathin Blanco;SI
+5041;Amplitude UHD 1.59 Polarizado Polarizado G15 ((USO INTERNO));SI
+5042;Amplitude UHD 1.67 Orgathin SUNMATIC Gris;SI
+5044;Amplitude UHD 1.74 Nexus Blanco;SI
+5045;Amplitude UHD 1.67 Smart Control ((USO INTERNO));SI
+5100;Amplitude RELAX 1.50 Orgánico Blanco;SI
+5101;Amplitude RELAX 1.50 Orgánico SUNMATIC Azul;SI
+5102;Amplitude RELAX 1.50 Orgánico Smart Control;SI
+5103;Amplitude RELAX 1.50 Orgánico SUNMATIC Rosado;SI
+5104;Amplitude RELAX 1.50 Orgánico SUNMATIC Gris;SI
+5105;Amplitude RELAX 1.50 Orgánico SUNMATIC Café;SI
+5106;Amplitude RELAX 1.59 Policarbonato Blanco;SI
+5107;Amplitude RELAX 1.59 Policarbonato Smart Control;SI
+5110;Amplitude RELAX 1.60 MR-8 Blanco;SI
+5111;Amplitude RELAX 1.60 MR-8 SUNMATIC Gris;SI
+5112;Amplitude RELAX 1.60 MR-8 Control Blue;SI
+5114;Amplitude RELAX 1.67 Orgathin Blanco;SI
+5116;Amplitude RELAX 1.67 Orgathin SUNMATIC Gris;SI
+5150;Monofocal TPD 1.50 Orgánico Blanco;NO
+5152;Monofocal TPD 1.50 Orgánico Photo Lite;NO
+5154;Monofocal TPD 1.50 Orgánico SUNMATIC Gris;NO
+5156;Monofocal TPD 1.50 Orgánico SUNMATIC Café;NO
+5164;Monofocal TPD 1.50 Orgánico Polarizado Gris;NO
+5166;Monofocal TPD 1.50 Orgánico Polarizado Café;NO
+5168;Monofocal TPD 1.50 Orgánico Polarizado G15;NO
+5170;Monofocal TPD 1.50 Orgánico Drivewear Transitions;NO
+5172;Monofocal TPD 1.53 Trivex Blanco;NO
+5176;Monofocal TPD 1.59 Policarbonato Blanco;NO
+5178;Monofocal TPD 1.59 Poli Foto Neochromes Gris;NO
+5180;Monofocal TPD 1.67 Orgathin Blanco;NO
+5181;Monofocal TPD 1.59 Policarbonato Polarizado G15 ((USO INTERNO));SI
+5182;Monofocal TPD 1.67 Orgathin SUNMATIC Gris;NO
+5183;Monofocal TPD 1.59 Policarbonato Polarizado Café ((USO INTERNO));SI
+5184;Monofocal TPD 1.74 Nexus Blanco;NO
+5186;Monofocal TPD 1.60 MR-8 Blanco;NO
+5187;Monofocal TPD 1.60 MR-8 Control Blue (((USO INTERNO)));SI
+5188;Monofocal TPD 1.60 MR-8 SUNMATIC Gris;NO
+5200;Amplitude DIFFERENT 1.50 Orgánico Blanco;SI
+5202;Amplitude DIFFERENT 1.50 Orgánico Photo Lite;SI
+5204;Amplitude DIFFERENT 1.50 Orgánico SUNMATIC Gris;SI
+5206;Amplitude DIFFERENT 1.50 Orgánico SUNMATIC Café;SI
+5214;Amplitude DIFFERENT 1.50 Orgánico Polarizado Gris;SI
+5216;Amplitude DIFFERENT 1.59 Policarbonato Blanco;SI
+5220;Amplitude DIFFERENT 1.60 MR-8 Blanco;SI
+5221;Amplitude DIFFERENT 1.60 MR-8 SUNMATIC Gris;SI
+5222;Amplitude DIFFERENT 1.60 MR-8 Control Blue;SI
+5224;Amplitude DIFFERENT 1.67 Orgathin Blanco;SI
+5226;Amplitude DIFFERENT 1.67 Orgathin SUNMATIC Gris;SI
+5250;Amplitude INVISIBLE 1.50 Orgánico Blanco;SI
+5252;Amplitude INVISIBLE 1.50 Orgánico Photo Lite;SI
+5254;Amplitude INVISIBLE 1.50 Orgánico SUNMATIC Gris;SI
+5256;Amplitude INVISIBLE 1.50 Orgánico SUNMATIC Café;SI
+5264;Amplitude INVISIBLE 1.50 Orgánico Polarizado Gris;SI
+5266;Amplitude INVISIBLE 1.59 Policarbonato Blanco;SI
+5268;Amplitude INVISIBLE 1.59 Poli Foto Neochromes Gris;SI
+5270;Amplitude INVISIBLE 1.60 MR-8 Blanco;SI
+5272;Amplitude INVISIBLE 1.60 MR-8 Control Blue;SI
+5274;Amplitude INVISIBLE 1.67 Orgathin Blanco;SI
+5275;Amplitude INVISIBLE 1.60 MR-8 SUNMATIC Gris;SI
+5276;Amplitude INVISIBLE 1.67 Orgathin SUNMATIC Gris;SI
+5300;Amplitude FLAT TOP 1.50 Orgánico Blanco;SI
+5302;Amplitude FLAT TOP 1.50 Orgánico Photo Lite;SI
+5304;Amplitude FLAT TOP 1.59 Policarbonato Blanco;SI
+5350;Bifocal TPD Flat Top 1.50 Orgánico Blanco;NO
+5352;Bifocal TPD Flat Top 1.50 Orgánico Photo Lite;NO
+5354;Bifocal TPD Flat Top 1.59 Policarbonato Blanco;NO
+5400;Amplitude FREESTYLE IA 1.50 Orgánico Blanco;SI
+5402;Amplitude FREESTYLE IA 1.50 Orgánico Smart Control;SI
+5404;Amplitude FREESTYLE IA 1.50 Orgánico SUNMATIC Gris;SI
+5405;Amplitude FREESTYLE IA 1.50 Orgánico SUNMATIC Azul;SI
+5406;Amplitude FREESTYLE IA 1.50 Orgánico SUNMATIC Café;SI
+5407;Amplitude FREESTYLE IA 1.50 Orgánico SUNMATIC Rosado;SI
+5414;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado Gris;SI
+5416;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado Café;SI
+5418;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado G15;SI
+5420;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado Gris Espejado Plata;SI
+5422;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado Gris Espejado Azul;SI
+5424;Amplitude FREESTYLE IA 1.50 Orgánico Polarizado Marron Espejado Dorado;SI
+5426;Amplitude FREESTYLE IA 1.50 Orgánico Drivewear Polarizado Transitions;SI
+5428;Amplitude FREESTYLE IA 1.53 Trivex Blanco;SI
+5432;Amplitude FREESTYLE IA 1.59 Policarbonato Blanco;SI
+5433;Amplitude FREESTYLE IA 1.59 Policarbonato Smart Control;SI
+5436;Amplitude FREESTYLE IA 1.60 MR-8 Blanco;SI
+5437;Amplitude FREESTYLE IA 1.60 MR-8 SUNMATIC Gris;SI
+5438;Amplitude FREESTYLE IA 1.60 MR-8 Control Blue;SI
+5440;Amplitude FREESTYLE IA 1.67 Orgathin Blanco;SI
+5441;Amplitude FREESTYLE IA 1.67 Smart Control ((USO INTERNO));SI
+5442;Amplitude FREESTYLE IA 1.67 Orgathin SUNMATIC Gris;SI
+5444;Amplitude FREESTYLE IA 1.74 Nexus Blanco;SI
+5500;Amplitude PLUS 1.50 Orgánico Blanco;SI
+5502;Amplitude PLUS 1.50 Orgánico Smart Control;SI
+5504;Amplitude PLUS 1.50 Orgánico SUNMATIC Gris;SI
+5505;Amplitude PLUS 1.50 Orgánico SUNMATIC Azul;SI
+5506;Amplitude PLUS 1.50 Orgánico SUNMATIC Café;SI
+5507;Amplitude PLUS 1.50 Orgánico SUNMATIC Rosado;SI
+5514;Amplitude PLUS 1.50 Orgánico Polarizado Gris;SI
+5516;Amplitude PLUS 1.50 Orgánico Polarizado Café;SI
+5518;Amplitude PLUS 1.50 Orgánico Polarizado G15;SI
+5520;Amplitude PLUS 1.50 Orgánico Polarizado Gris Espejado Plata;SI
+5522;Amplitude PLUS 1.50 Orgánico Polarizado Gris Espejado Azul;SI
+5524;Amplitude PLUS 1.50 Orgánico Polarizado Marron Espejado Dorado;SI
+5526;Amplitude PLUS 1.50 Orgánico Drivewear Polarizado Transitions;SI
+5528;Amplitude PLUS 1.53 Trivex Blanco;SI
+5531;Amplitude PLUS 1.59 Policarbonato Polarizado G15 ((USO INTERNO));SI
+5532;Amplitude PLUS 1.59 Policarbonato Blanco;SI
+5533;Amplitude PLUS 1.59 Policarbonato Smart Control;SI
+5534;Amplitude PLUS 1.59 Poli Foto Neochromes Gris;SI
+5535;Amplitude PLUS 1.59 Policarbonato Polarizado Gris ((USO INTERNO));SI
+5536;Amplitude PLUS 1.60 MR-8 Blanco;SI
+5537;Amplitude PLUS 1.60 MR-8 SUNMATIC Gris;SI
+5538;Amplitude PLUS 1.60 MR-8 Control Blue;SI
+5540;Amplitude PLUS 1.67 Orgathin Blanco;SI
+5542;Amplitude PLUS 1.67 Orgathin SUNMATIC Gris;SI
+5544;Amplitude PLUS 1.74 Nexus Blanco;SI
+5600;Amplitude VIEW 1.50 Orgánico Blanco;SI
+5602;Amplitude VIEW 1.50 Orgánico Smart Control;SI
+5604;Amplitude VIEW 1.50 Orgánico SUNMATIC Gris;SI
+5605;Amplitude VIEW 1.50 Orgánico SUNMATIC Azul;SI
+5606;Amplitude VIEW 1.50 Orgánico SUNMATIC Café;SI
+5607;Amplitude VIEW 1.50 Orgánico SUNMATIC Rosado;SI
+5614;Amplitude VIEW 1.50 Orgánico Polarizado Gris;SI
+5616;Amplitude VIEW 1.50 Orgánico Polarizado Café;SI
+5618;Amplitude VIEW 1.50 Orgánico Polarizado G15;SI
+5620;Amplitude VIEW 1.50 Orgánico Polarizado Gris Espejado Plata;SI
+5622;Amplitude VIEW 1.50 Orgánico Polarizado Gris Espejado Azul;SI
+5624;Amplitude VIEW 1.50 Orgánico Polarizado Marron Espejado Dorado;SI
+5626;Amplitude VIEW 1.50 Orgánico Drivewear Polarizado Transitions;SI
+5628;Amplitude VIEW 1.53 Trivex Blanco;SI
+5632;Amplitude VIEW 1.59 Policarbonato Blanco;SI
+5633;Amplitude VIEW 1.59 Policarbonato Smart Control;SI
+5634;Amplitude VIEW 1.59 Poli Foto Neochromes Gris;SI
+5636;Amplitude VIEW 1.60 MR-8 Blanco;SI
+5638;Amplitude VIEW 1.60 MR-8 Control Blue;SI
+5640;Amplitude VIEW 1.67 Orgathin Blanco;SI
+5641;Amplitude VIEW 1.60 MR-8 SUNMATIC Gris;SI
+5642;Amplitude VIEW 1.67 Orgathin SUNMATIC Gris;SI
+5700;Amplitude FIRST PLUS 1.50 Orgánico Blanco Add hasta 1.75;SI
+5702;Amplitude FIRST VIEW 1.50 Orgánico Blanco Add hasta 1.75;SI
+5704;Amplitude FIRST PLUS 1.50 Orgánico SUNMATIC Gris Add hasta 1.75;SI
+5705;Amplitude FIRST PLUS 1.50 Orgánico SUNMATIC Café Add hasta 1.75;SI
+5706;Amplitude FIRST VIEW 1.50 Orgánico SUNMATIC Gris Add hasta 1.75;SI
+5707;Amplitude FIRST VIEW 1.50 Orgánico SUNMATIC Café Add hasta 1.75;SI
+5708;Amplitude FIRST PLUS 1.60 MR-8 Blanco Add hasta 1.75;SI
+5710;Amplitude FIRST VIEW 1.60 MR-8 Blanco Add hasta 1.75;SI
+5712;Amplitude FIRST PLUS 1.60 MR-8 Control Blue Add hasta 1.75;SI
+5714;Amplitude FIRST VIEW 1.60 MR-8 Control Blue Add hasta 1.75;SI
+5740;Progresivo STANDARD 1.50 Orgánico Blanco;Prescripcion
+5742;Progresivo STANDARD 1.50 Orgánico Photo Lite;Prescripcion
+5744;Progresivo STANDARD 1.59 Policarbonato Blanco;Prescripcion
+5746;Progresivo STANDARD 1.60 MR-8 Control Blue;Prescripcion
+5750;Amplitude CLASSIC 1.50 Orgánico Blanco;SI
+5752;Amplitude CLASSIC 1.50 Orgánico Smart Control;SI
+5754;Amplitude CLASSIC 1.50 Orgánico Photo Lite;SI
+5755;Amplitude CLASSIC 1.50 Orgánico SUNMATIC Azul;SI
+5756;Amplitude CLASSIC 1.50 Orgánico SUNMATIC Gris;SI
+5757;Amplitude CLASSIC 1.50 Orgánico SUNMATIC Rosado;SI
+5758;Amplitude CLASSIC 1.50 Orgánico SUNMATIC Café;SI
+5766;Amplitude CLASSIC 1.50 Orgánico Polarizado Gris;SI
+5768;Amplitude CLASSIC 1.50 Orgánico Polarizado Café;SI
+5770;Amplitude CLASSIC 1.50 Orgánico Polarizado G15;SI
+5772;Amplitude CLASSIC 1.50 Orgánico Polarizado Gris Espejado Plata;SI
+5774;Amplitude CLASSIC 1.50 Orgánico Polarizado Gris Espejado Azul;SI
+5776;Amplitude CLASSIC 1.50 Orgánico Polarizado Marron Espejado Dorado;SI
+5778;Amplitude CLASSIC 1.59 Policarbonato Blanco;SI
+5779;Amplitude CLASSIC 1.59 Policarbonato Smart Control;SI
+5780;Amplitude CLASSIC 1.59 Poli Foto Neochromes Gris;SI
+5782;Amplitude CLASSIC 1.60 MR-8 Blanco;SI
+5783;Amplitude CLASSIC 1.60 MR-8 SUNMATIC Gris;SI
+5784;Amplitude CLASSIC 1.60 MR-8 Control Blue;SI
+5800;Amplitude OFFICE 1.50 Orgánico Blanco PROF;SI
+5802;Amplitude OFFICE 1.50 Orgánico Smart Control PROF;SI
+5804;Amplitude OFFICE 1.53 Trivex Blanco PROF;SI
+5806;Amplitude OFFICE 1.59 Policarbonato Blanco PROF;SI
+5807;Amplitude OFFICE 1.59 Policarbonato Smart Control PROF;SI
+5808;Amplitude OFFICE 1.60 MR-8 Blanco PROF;SI
+5810;Amplitude OFFICE 1.60 MR-8 Control Blue PROF;SI
+5812;Amplitude OFFICE 1.67 Orgathin Blanco PROF;SI
+5814;Amplitude OFFICE 1.50 Orgánico Blanco DEG;SI
+5816;Amplitude OFFICE 1.50 Orgánico Smart Control DEG;SI
+5818;Amplitude OFFICE 1.53 Trivex Blanco DEG;SI
+5819;Amplitude OFFICE 1.59 Policarbonato Blanco DEG;SI
+5821;Amplitude OFFICE 1.59 Policarbonato Smart Control DEG;SI
+5822;Amplitude OFFICE 1.60 MR-8 Blanco DEG;SI
+5824;Amplitude OFFICE 1.60 MR-8 Control Blue DEG;SI
+5826;Amplitude OFFICE 1.67 Orgathin Blanco DEG;SI
+5850;Amplitude FIRST OFFICE 1.50 Orgánico Blanco c/add hasta 1.75;SI
+5852;Amplitude FIRST OFFICE 1.59 Policarbonato Blanco c/add hasta 1.75;SI
+5854;Amplitude FIRST OFFICE 1.60 MR-8 Blanco c/add hasta 1.75;SI
+5856;Amplitude FIRST OFFICE 1.60 MR-8 Control Blue c/add hasta 1.75;SI
+7830;Sdo Par Promo;NO
+10000;Argos BKS 1.50 Hilux Clear;SI
+10002;Argos BKS 1.50 Hilux Clear Blue Filter;SI
+10004;Argos BKS 1.50 Hilux Sensity 2 Grey;SI
+10006;Argos BKS 1.50 Hilux Polarized Grey;SI
+10008;Argos BKS 1.50 Hilux Polarized Brown;SI
+10010;Argos BKS 1.59 Hilux Clear;SI
+10012;Argos BKS 1.59 Hilux Clear Blue Filter;SI
+10014;Argos BKS 1.59 Hilux Sensity 2 Grey;SI
+10022;Argos BKS 1.60 Hilux MR-8 Clear;SI
+10024;Argos BKS 1.60 Hilux MR-8 Filter 420;SI
+10026;Argos BKS 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10028;Argos BKS 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10030;Argos BKS 1.60 Hilux MR-8 Sensity 2 Green;SI
+10040;Array 2 1.50 Hilux Clear ((USO INTERNO));SI
+10050;Array 2 1.50 Hilux Clear Blue Filter;SI
+10052;Array 2 1.50 Hilux Sensity 2 Grey;SI
+10060;Array 2 1.59 Hilux Clear Blue Filter;SI
+10062;Array 2 1.59 Hilux Sensity 2 Grey;SI
+10064;Array 2 1.59 Hilux Polarized Grey;SI
+10066;Array 2 1.59 Hilux Polarized Brown;SI
+10068;Array 2 1.59 Hilux Polarized Green;SI
+10070;Array 2 1.60 Hilux MR-8 Clear;SI
+10072;Array 2 1.60 Hilux MR-8 Filter 420;SI
+10074;Array 2 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10076;Array 2 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10078;Array 2 1.60 Hilux MR-8 Sensity 2 Green;SI
+10080;Array 2 1.67 Hilux Clear;SI
+10082;Array 2 1.67 Hilux Clear Blue Filter;SI
+10084;Array 2 1.67 Hilux Sensity 2 Grey;SI
+10086;Array 2 1.74 Hilux Clear;SI
+10100;Array Wrap 1.50 Hilux Clear Blue Filter;SI
+10101;Array Wrap 1.50 Hilux Clear ((USO INTERNO));SI
+10102;Array Wrap 1.50 Sensity Grey;SI
+10110;Array Wrap 1.59 Hilux Clear Blue Filter;SI
+10112;Array Wrap 1.59 Hilux Sensity Grey;SI
+10114;Array Wrap 1.59 Hilux Polarizado Grey;SI
+10116;Array Wrap 1.59 Hilux Polarizado Brown;SI
+10118;Array Wrap 1.59 Hilux Polarizado Green;SI
+10120;Array Wrap 1.60 Hilux MR-8 Clear;SI
+10122;Array Wrap 1.60 Hilux MR-8 Filter 420;SI
+10124;Array Wrap 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10126;Array Wrap 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10128;Array Wrap 1.60 Hilux MR-8 Sensity 2 Green;SI
+10130;Array Wrap 1.67 Hilux Clear;SI
+10132;Array Wrap 1.67 Hilux Clear Blue Filter;SI
+10134;Array Wrap 1.67 Hilux Sensity 2 Grey;SI
+10136;Array Wrap 1.74 Hilux Clear;SI
+10140;Summit Premiun 1.50 Hilux Clear ((USO INTERNO));SI
+10150;Summit Premiun 1.50 Hilux Clear Blue Filter;SI
+10152;Summit Premiun 1.50 Hilux Sensity 2 Grey;SI
+10154;Summit Premiun 1.50 Hilux Polarized Grey;SI
+10156;Summit Premiun 1.50 Hilux Polarized Brown;SI
+10160;Summit Premiun 1.59 Hilux Clear Blue Filter;SI
+10162;Summit Premiun 1.59 Hilux Sensity 2 Grey;SI
+10164;Summit Premiun 1.59 Hilux Polarized Grey;SI
+10166;Summit Premiun 1.59 Hilux Polarized Brown;SI
+10168;Summit Premiun 1.59 Hilux Polarized Green;SI
+10170;Summit Premiun 1.60 Hilux MR-8 Clear;SI
+10172;Summit Premiun 1.60 Hilux MR-8 Filter 420;SI
+10174;Summit Premiun 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10176;Summit Premiun 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10178;Summit Premiun 1.60 Hilux MR-8 Sensity 2 Green;SI
+10180;Summit Premiun 1.67 Hilux Clear;SI
+10182;Summit Premiun 1.67 Hilux Clear Blue Filter;SI
+10184;Summit Premiun 1.67 Hilux Sensity 2 Grey;SI
+10186;Summit Premiun 1.74 Hilux Clear;SI
+10200;Tact 40 BKS 1.50 Hilux Clear Blue Filter;SI
+10201;Tact 40 BKS 1.50 Hilux Clear ((USO INTERNO));SI
+10202;Tact 40 BKS 1.50 Hilux Sensity 2 Grey;SI
+10206;Tact 40 BKS 1.59 Hilux Clear Blue Filter;SI
+10208;Tact 40 BKS 1.59 Hilux Sensity 2 Grey;SI
+10210;Tact 40 BKS 1.60 Hilux MR-8 Clear;SI
+10212;Tact 40 BKS 1.60 Hilux MR-8 Filter 420;SI
+10214;Tact 40 BKS 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10216;Tact 40 BKS 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10218;Tact 40 BKS 1.60 Hilux MR-8 Sensity 2 Green;SI
+10219;Tact 40 BKS 1.67 Hilux Clear;SI
+10220;Tact 40 BKS 1.67 Hilux Clear Blue Filter;SI
+10240;Tact 60 BKS 1.50 Hilux Clear ((USO INTERNO));SI
+10250;Tact 60 BKS 1.50 Hilux Clear Blue Filter;SI
+10252;Tact 60 BKS 1.50 Hilux Sensity 2 Grey;SI
+10256;Tact 60 BKS 1.59 Hilux Clear Blue Filter;SI
+10258;Tact 60 BKS 1.59 Hilux Sensity 2 Grey;SI
+10260;Tact 60 BKS 1.60 Hilux MR-8 Clear;SI
+10262;Tact 60 BKS 1.60 Hilux MR-8 Filter 420;SI
+10264;Tact 60 BKS 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10266;Tact 60 BKS 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10268;Tact 60 BKS 1.60 Hilux MR-8 Sensity 2 Green;SI
+10269;Tact 60 BKS 1.67 Hilux Clear;SI
+10270;Tact 60 BKS 1.67 Hilux Clear Blue Filter;SI
+10300;Sync III 5 1.50 Hilux Clear;SI
+10302;Sync III 5 1.50 Hilux Clear Blue Filter;SI
+10304;Sync III 5 1.50 Hilux Sensity 2 Grey;SI
+10308;Sync III 5 1.59 Hilux Clear Blue Filter;SI
+10310;Sync III 5 1.59 Hilux Sensity 2 Grey;SI
+10318;Sync III 5 1.60 Hilux MR-8 Clear;SI
+10320;Sync III 5 1.60 Hilux MR-8 Filter 420;SI
+10322;Sync III 5 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10324;Sync III 5 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10326;Sync III 5 1.60 Hilux MR-8 Sensity 2 Green;SI
+10327;Sync III 5 1.67 Hilux Clear;SI
+10328;Sync III 5 1.67 Hilux Clear Blue Filter;SI
+10330;Sync III 5 1.67 Hilux Sensity 2 Grey;SI
+10350;Sync III 9 1.50 Hilux Clear ((USO INTERNO));SI
+10352;Sync III 9 1.50 Hilux Clear Blue Filter;SI
+10354;Sync III 9 1.50 Hilux Sensity 2 Grey;SI
+10358;Sync III 9 1.59 Hilux Clear Blue Filter;SI
+10360;Sync III 9 1.59 Hilux Sensity 2 Grey;SI
+10368;Sync III 9 1.60 Hilux MR-8 Clear;SI
+10370;Sync III 9 1.60 Hilux MR-8 Filter 420;SI
+10372;Sync III 9 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10374;Sync III 9 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10376;Sync III 9 1.60 Hilux MR-8 Sensity 2 Green;SI
+10377;Sync III 9 1.67 Hilux Clear;SI
+10378;Sync III 9 1.67 Hilux Clear Blue Filter;SI
+10380;Sync III 9 1.67 Hilux Sensity 2 Grey;SI
+10400;Sync III 13 1.50 Hilux Clear ((USO INTERNO));SI
+10402;Sync III 13 1.50 Hilux Clear Blue Filter;SI
+10404;Sync III 13 1.50 Hilux Sensity 2 Grey;SI
+10408;Sync III 13 1.59 Hilux Clear Blue Filter;SI
+10410;Sync III 13 1.59 Hilux Sensity 2 Grey;SI
+10418;Sync III 13 1.60 Hilux MR-8 Clear;SI
+10420;Sync III 13 1.60 Hilux MR-8 Filter 420;SI
+10422;Sync III 13 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10424;Sync III 13 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10426;Sync III 13 1.60 Hilux MR-8 Sensity 2 Green;SI
+10427;Sync III 13 1.67 Hilux Clear;SI
+10428;Sync III 13 1.67 Hilux Clear Blue Filter;SI
+10430;Sync III 13 1.67 Hilux Sensity 2 Grey;SI
+10440;Nulux Asferico 1.50 Hilux Clear ((USO INTERNO));SI
+10450;Nulux Asferico 1.50 Hilux Clear Blue Filter;SI
+10452;Nulux Asferico 1.50 Hilux Sensity 2 Grey;SI
+10454;Nulux Asferico 1.50 Hilux Polarized Grey;SI
+10456;Nulux Asferico 1.50 Hilux Polarized Brown;SI
+10460;Nulux Asferico 1.59 Hilux Clear Blue Filter;SI
+10462;Nulux Asferico 1.59 Hilux Sensity 2 Grey;SI
+10464;Nulux Asferico 1.59 Hilux Polarized Grey;SI
+10466;Nulux Asferico 1.59 Hilux Polarized Brown;SI
+10468;Nulux Asferico 1.59 Hilux Polarized Green;SI
+10470;Nulux Asferico 1.60 Hilux MR-8 Clear;SI
+10472;Nulux Asferico 1.60 Hilux MR-8 Filter 420;SI
+10474;Nulux Asferico 1.60 Hilux MR-8 Sensity 2 Grey;SI
+10476;Nulux Asferico 1.60 Hilux MR-8 Sensity 2 Brown;SI
+10478;Nulux Asferico 1.60 Hilux MR-8 Sensity 2 Green;SI
+10479;Nulux Asferico 1.67 Hilux Clear;SI
+10480;Nulux Asferico 1.67 Hilux Clear Blue Filter;SI
+10482;Nulux Asferico 1.67 Hilux Sensity 2 Grey;SI
+10484;Nulux Asferico 1.74 Hilux Clear;SI
+10524;H1 1.60 Hilux MR-8 Filter 420;SI
+10550;Simple Vision 1.50 Hilux Clear ((USO INTERNO));SI
+10552;Simple Vision 1.50 Hilux Clear Blue Filter;SI
+10554;Simple Vision 1.50 Hilux Sensity 2 Grey;SI
+10556;Simple Vision 1.50 Hilux Polarized Grey;SI
+10558;Simple Vision 1.50 Hilux Polarized Brown;SI
+10564;Simple Vision 1.59 Hilux Clear Blue Filter;SI
+10566;Simple Vision 1.59 Hilux Sensity 2 Grey;SI
+10574;Simple Vision 1.60 Hilux MR-8 Clear;SI
+10576;Simple Vision 1.60 Hilux MR-8 Filter 420;SI
+10584;Simple Vision 1.67 Hilux Clear;SI
+10586;Simple Vision 1.67 Hilux Clear Blue Filter;SI
+10600;MI PRIMER HOYA - Array 1.50 Hilux Clear ((USO INTERNO));SI
+10610;MI PRIMER HOYA - Array 1.50 Hilux Clear Blue Filter Add hasta 1.75;SI
+10612;MI PRIMER HOYA - Array 1.50 Hilux Sensity 2 Grey Add hasta 1.75;SI
+10620;MI PRIMER HOYA - Array 1.59 Hilux Clear Blue Filter Add hasta 1.75;SI
+10622;MI PRIMER HOYA - Array 1.59 Hilux Sensity 2 Grey Add hasta 1.75;SI
+10624;MI PRIMER HOYA - Array 1.59 Hilux Polarized Grey Add hasta 1.75;SI
+10626;MI PRIMER HOYA - Array 1.59 Hilux Polarized Brown Add hasta 1.75;SI
+10628;MI PRIMER HOYA - Array 1.59 Hilux Polarized Green Add hasta 1.75;SI
+10630;MI PRIMER HOYA - Array 1.60 Hilux MR-8 Clear Add hasta 1.75;SI
+10632;MI PRIMER HOYA - Array 1.60 Hilux MR-8 Filter 420 Add hasta 1.75;SI
+10634;MI PRIMER HOYA - Array 1.60 Hilux MR-8 Sensity 2 Grey Add hasta 1.75;SI
+10636;MI PRIMER HOYA - Array 1.60 Hilux MR-8 Sensity 2 Brown Add hasta 1.75;SI
+10638;MI PRIMER HOYA - Array 1.60 Hilux MR-8 Sensity 2 Green Add hasta 1.75;SI
+10640;MI PRIMER HOYA - Summit 1.50 Hilux Clear ((USO INTERNO));SI
+10650;MI PRIMER HOYA - Summit 1.50 Hilux Clear Blue Filter Add hasta 1.75;SI
+10652;MI PRIMER HOYA - Summit 1.50 Hilux Sensity 2 Grey Add hasta 1.75;SI
+10660;MI PRIMER HOYA - Summit 1.59 Hilux Clear Blue Filter Add hasta 1.75;SI
+10662;MI PRIMER HOYA - Summit 1.59 Hilux Sensity 2 Grey Add hasta 1.75;SI
+10664;MI PRIMER HOYA - Summit 1.59 Hilux Polarized Grey Add hasta 1.75;SI
+10666;MI PRIMER HOYA - Summit 1.59 Hilux Polarized Brown Add hasta 1.75;SI
+10668;MI PRIMER HOYA - Summit 1.59 Hilux Polarized Green Add hasta 1.75;SI
+10670;MI PRIMER HOYA - Summit 1.60 Hilux MR-8 Clear Add hasta 1.75;SI
+10672;MI PRIMER HOYA - Summit 1.60 Hilux MR-8 Filter 420 Add hasta 1.75;SI
+10674;MI PRIMER HOYA - Summit 1.60 Hilux MR-8 Sensity 2 Grey Add hasta 1.75;SI
+10676;MI PRIMER HOYA - Summit 1.60 Hilux MR-8 Sensity 2 Brown Add hasta 1.75;SI
+10678;MI PRIMER HOYA - Summit 1.60 Hilux MR-8 Sensity 2 Green Add hasta 1.75;SI
+11000;IDLS3 URBAN 1.50 Hilux Clear;SI
+11002;IDLS3 URBAN 1.50 Hilux Sensity 2 Grey;SI
+11004;IDLS4 URBAN 1.50 Hilux Clear;SI
+11006;IDLS4 URBAN 1.50 Hilux Sensity 2 Grey;SI
+11050;IDLS3 INDOOR 1.50 Hilux Clear;SI
+11052;IDLS3 INDOOR 1.50 Hilux Sensity 2 Grey;SI
+11054;IDLS4 INDOOR 1.50 Hilux Clear;SI
+11056;IDLS4 INDOOR 1.50 Hilux Sensity 2 Grey;SI
+11100;IDLS3 OUTDOOR 1.50 Hilux Clear;SI
+11102;IDLS3 OUTDOOR 1.50 Hilux Sensity 2 Grey;SI
+11104;IDLS4 OUTDOOR 1.50 Hilux Clear;SI
+11106;IDLS4 OUTDOOR 1.50 Hilux Sensity 2 Grey;SI
+11108;IDLS4 OUTDOOR 1.60 Hilux Clear;SI
+11110;IDLS4 OUTDOOR 1.60 Hilux Sensity 2 Grey;SI
+11200;MiYOSMART Clear;SI
+11201;MiYOSMART Clear (Rango Lab);SI
+11205;MiYOSMART Clear Stock;SI
+11210;MiYOSMART Sunbird;SI
+11215;MiYOSMART Sunbird Stock;SI
+11220;MiYOSMART Chamaleon;SI
+11225;MiYOSMART Chamaleon Stock;SI
+20000;PENTAX All Focus PRO 1.50 Clear;SI
+20005;PENTAX All Focus PRO 1.50 Sensity Grey;SI
+20010;PENTAX All Focus PRO 1.59 Clear;SI
+20015;PENTAX All Focus PRO 1.60 Blue Filter UV-420;SI
+20040;PENTAX All Focus FLEX 1.50 Clear;SI
+20045;PENTAX All Focus FLEX 1.50 Sensity Grey;SI
+20050;PENTAX All Focus FLEX 1.59 Clear;SI
+20055;PENTAX All Focus FLEX 1.60 Blue Filter UV-420;SI
+20060;PENTAX OFFICE DP 40 1.50 Clear;SI
+20065;PENTAX OFFICE DP 40 1.59 Clear;SI
+20070;PENTAX OFFICE DP 40 1.60 Blue Filter UV-420;SI
+20080;PENTAX OFFICE DP 60 1.50 Clear;SI
+20085;PENTAX OFFICE DP 60 1.59 Clear;SI
+20090;PENTAX OFFICE DP 60 1.60 Blue Filter UV-420;SI
