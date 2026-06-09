@@ -1453,12 +1453,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     const rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
-    const startIdx = (rows[0] && rows[0][0].toLowerCase().includes('usu')) ? 1 : 0;
+    const firstCell = rows[0] && rows[0][0] ? rows[0][0].toLowerCase() : '';
+    const startIdx = (firstCell.includes('usu') || firstCell.includes('log') || firstCell.includes('user')) ? 1 : 0;
     usuariosDB = [];
     rows.slice(startIdx).forEach(cols => {
       if (!cols || !cols[0]) return;
       const usuario = cols[0].trim().toLowerCase();
-      const password = (cols[1] && cols[1].trim()) ? cols[1].trim() : usuario;
+      const password = (cols[1] && cols[1].trim()) ? cols[1].trim().toLowerCase() : usuario;
       if (usuario) usuariosDB.push({ usuario, password });
     });
 
@@ -1511,7 +1512,7 @@ function submitFormLogin() {
 
     // Verificar usuario común
     const match = usuariosDB.find(u =>
-      u.usuario.toLowerCase() === user && u.password === pass
+      u.usuario === user && u.password === pass.toLowerCase()
     );
 
     btn.textContent = 'Ingresar';
