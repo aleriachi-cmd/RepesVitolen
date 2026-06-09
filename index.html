@@ -1102,11 +1102,11 @@ function motivoClick() {
 }
 
 function actualizarMotivos() {
-  const oficina = document.getElementById('oficina').value;
-  const sel = document.getElementById('motivo');
-  const rubroGarantia = document.getElementById('rubroGarantia').value;
-  const rubroCompleto = document.getElementById('rubroCod').value !== '';
-  const ojoCompleto = document.querySelector('input[name="ojo"]:checked') !== null;
+  let oficina = document.getElementById('oficina').value;
+  let sel = document.getElementById('motivo');
+  let rubroGarantia = document.getElementById('rubroGarantia').value;
+  let rubroCompleto = document.getElementById('rubroCod').value !== '';
+  let ojoCompleto = document.querySelector('input[name="ojo"]:checked') !== null;
 
   // Motivo permanece deshabilitado si no hay rubro, oficina u ojo seleccionado
   if (!rubroCompleto || !ojoCompleto) {
@@ -1128,7 +1128,7 @@ function actualizarMotivos() {
   // SI          → todos los motivos
   // Prescripcion → solo motivo 56 del rango 55-65 (bloquea 55, 57-65)
   // NO           → ninguno del rango 55-65
-  const MOTIVO_56_RE = /^56\s*-/;
+  let MOTIVO_56_RE = /^56\s*-/;
 
   let lista = oficinasEspeciales.includes(oficina)
     ? motivosPorOficina[oficina]
@@ -1444,7 +1444,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
 
-    const res = await fetch(USUARIOS_URL + '?t=' + Date.now(), { signal: controller.signal });
+    const res = await fetch(USUARIOS_URL + '?t=' + Date.now(), {
+      signal: controller.signal
+    });
     clearTimeout(timeout);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
