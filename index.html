@@ -642,12 +642,24 @@ textarea{resize:none;}
 
     <!-- Tab Rubros -->
     <div id="tabRubros" style="padding:24px;">
-      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">
         Subí un CSV con tres columnas:<br>
         <span style="font-family:'DM Mono',monospace;font-size:11px;background:#f0f2f5;padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px;">
-          <strong>A:</strong> Código &nbsp;|&nbsp; <strong>B:</strong> Nombre &nbsp;|&nbsp; <strong>C:</strong> Garantía (SI/NO)
+          <strong>A:</strong> Código &nbsp;|&nbsp; <strong>B:</strong> Nombre &nbsp;|&nbsp; <strong>C:</strong> Garantía (SI/NO/Prescripcion)
         </span>
       </p>
+      <!-- Token GitHub -->
+      <div style="margin-bottom:12px;">
+        <label style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-family:'DM Mono',monospace;display:block;margin-bottom:4px;">
+          GitHub Token <span style="font-weight:400;text-transform:none;font-size:10px;">(requerido para guardar en GitHub)</span>
+        </label>
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+               style="width:100%;border:1px solid var(--border);border-radius:5px;padding:7px 10px;font-size:12px;font-family:'DM Mono',monospace;margin-bottom:4px;">
+        <p style="font-size:10.5px;color:var(--text-muted);">
+          El token no se guarda — solo se usa en esta operación.
+          <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent);">Generá uno aquí →</a>
+        </p>
+      </div>
       <div id="adminDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:12px;"
            onclick="document.getElementById('adminFileInput').click()"
            ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
@@ -1289,9 +1301,8 @@ function handleAdminFile(file) {
   }
 }
 
-function procesarFilasRubros(rows, filename) {
+async function procesarFilasRubros(rows, filename) {
   const status = document.getElementById('adminStatus');
-  // Detectar si primera fila es header
   const primera = rows[0];
   let startIdx = 0;
   if (primera && isNaN(primera[0]) && primera[0].toLowerCase().includes('cod')) startIdx = 1;
@@ -1300,11 +1311,14 @@ function procesarFilasRubros(rows, filename) {
   const errores = [];
 
   rows.slice(startIdx).forEach((cols, i) => {
-    if (!cols || cols.length < 2 || !cols[0]) return; // fila vacía
-    const cod = String(cols[0]).trim();
-    const nombre = String(cols[1] || '').trim();
-    const garantiaRaw = String(cols[2] || 'SI').trim().toUpperCase();
-    const garantia = (garantiaRaw === 'NO' || garantiaRaw === 'N') ? 'NO' : 'SI';
+    if (!cols || cols.length < 2 || !cols[0]) return;
+    const cod     = String(cols[0]).trim();
+    const nombre  = String(cols[1] || '').trim();
+    const garRaw  = String(cols[2] || 'SI').trim();
+    // Preservar Prescripcion tal cual, normalizar NO/N, todo lo demás es SI
+    let garantia = 'SI';
+    if (garRaw.toLowerCase() === 'no' || garRaw.toLowerCase() === 'n') garantia = 'NO';
+    else if (garRaw.toLowerCase().startsWith('presc')) garantia = 'Prescripcion';
     if (!nombre) { errores.push(`Fila ${startIdx + i + 1}: sin nombre`); return; }
     nuevos.push({ cod, nombre, garantia });
   });
@@ -1315,15 +1329,34 @@ function procesarFilasRubros(rows, filename) {
   }
 
   rubros = nuevos;
+  disenios.forEach(d => {
+    const matchR = nuevos.find(r => r.cod === d.cod);
+    if (matchR) d.garantia = matchR.garantia;
+  });
+
+  status.innerHTML = `<span style="color:var(--green);font-weight:600;">✅ ${nuevos.length} rubros cargados desde "${filename}"</span>
+    ${errores.length ? `<br><span style="color:#92400e;font-size:11px;">${errores.length} filas ignoradas</span>` : ''}`;
+
+  // Guardar en GitHub si hay token
+  const ghToken = document.getElementById('githubToken').value.trim();
+  if (ghToken) {
+    await guardarRubrosEnGitHub(nuevos, filename, ghToken, status);
+  } else {
+    status.innerHTML += `<br><span style="font-size:11px;color:#92400e;">⚠️ Sin token — los cambios aplican solo en esta sesión.</span>`;
+  }
+}
+
+  if (!nuevos.length) {
+    status.innerHTML = `<span style="color:var(--red)">❌ No se encontraron rubros válidos.</span>`;
+    return;
+  }
+
+  rubros = nuevos;
   // También actualizar disenios para que el buscador de Receta tenga la garantía correcta
   disenios.forEach(d => {
-    const match = nuevos.find(r => r.cod === d.cod);
-    if (match) d.garantia = match.garantia;
+    const matchR = nuevos.find(r => r.cod === d.cod);
+    if (matchR) d.garantia = matchR.garantia;
   });
-  status.innerHTML = `<span style="color:var(--green);font-weight:600;">✅ ${nuevos.length} rubros cargados desde "${filename}"</span>
-    ${errores.length ? `<br><span style="color:#92400e;font-size:11px;">${errores.length} filas ignoradas</span>` : ''}
-    <br><button onclick="cerrarAdmin()" style="margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:7px 16px;cursor:pointer;font-size:13px;">Cerrar</button>`;
-}
 
 function togglePill(el, type, name) {
   if (type === 'radio')
@@ -1644,7 +1677,54 @@ function procesarUsuarios(rows, filename) {
     </div>
   `;
 
-  // Actualizar lista visual
+async function guardarRubrosEnGitHub(rubrosData, filename, token, statusEl) {
+  try {
+    statusEl.innerHTML += `<br><span style="color:var(--text-muted);">⏳ Guardando en GitHub...</span>`;
+
+    const REPO = 'aleriachi-cmd/RepesVitolen';
+    const FILE = 'Rubros_Garantias.csv';
+    const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+
+    // Obtener SHA actual del archivo
+    const getRes = await fetch(API, {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getRes.ok) throw new Error(`No se pudo leer el archivo (${getRes.status})`);
+    const getJson = await getRes.json();
+    const sha = getJson.sha;
+
+    // Generar contenido CSV
+    const csvContent = 'Codigo;Nombre;Garantia\n' +
+      rubrosData.map(r => `${r.cod};${r.nombre};${r.garantia}`).join('\n');
+
+    // Subir a GitHub
+    const putRes = await fetch(API, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Actualización de rubros desde la app (${new Date().toLocaleDateString('es-AR')})`,
+        content: btoa(unescape(encodeURIComponent(csvContent))),
+        sha: sha
+      })
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || putRes.status);
+    }
+
+    statusEl.innerHTML += `<br><span style="color:var(--green);font-weight:600;">✅ Guardado en GitHub correctamente</span>`;
+    // Limpiar token por seguridad
+    document.getElementById('githubToken').value = '';
+
+  } catch(e) {
+    statusEl.innerHTML += `<br><span style="color:var(--red);">❌ Error al guardar en GitHub: ${e.message}</span>`;
+  }
+}
   const lista = document.getElementById('usuariosLista');
   lista.innerHTML = `
     <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-family:'DM Mono',monospace;">
