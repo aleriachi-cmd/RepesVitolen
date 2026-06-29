@@ -1476,7 +1476,7 @@ async function cargarRubrosDesdeGitHub() {
     let res = await fetch(RUBROS_URL + '?t=' + Date.now());
     if (!res.ok) return;
     let buffer = await res.arrayBuffer();
-    let text = new TextDecoder('utf-8').decode(buffer);
+    let text = new TextDecoder('windows-1252').decode(buffer);
     let rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
