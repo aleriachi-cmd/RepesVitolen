@@ -2131,8 +2131,9 @@ async function exportarImagen() {
     render(ctx, false);
 
     let link = document.createElement('a');
-    let ofSlug = oficina.replace(/\s+/g,'_');
-    link.download = `repeticion_${ofSlug}_${new Date().toISOString().slice(0,10)}.png`;
+    let fecha = new Date().toISOString().slice(0,10);
+    let nroSlug = nroTrabajo || 'SinNumero';
+    link.download = `${nroSlug}_Repe_${fecha}.png`;
     link.href = C.toDataURL('image/png');
     link.click();
     // Mostrar botón Nueva Repetición
