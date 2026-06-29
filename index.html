@@ -1475,7 +1475,8 @@ async function cargarRubrosDesdeGitHub() {
   try {
     let res = await fetch(RUBROS_URL + '?t=' + Date.now());
     if (!res.ok) return;
-    let text = await res.text();
+    let buffer = await res.arrayBuffer();
+    let text = new TextDecoder('utf-8').decode(buffer);
     let rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
@@ -1514,7 +1515,8 @@ async function cargarUsuariosDesdeGitHub() {
     clearTimeout(timeout);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    let text = await res.text();
+    let buffer2 = await res.arrayBuffer();
+    let text = new TextDecoder('utf-8').decode(buffer2);
     let rows = text.trim().split('\n').map(r =>
       r.split(/[;,]/).map(cel => cel.trim().replace(/^"|"$/g,'').replace(/\r/g,''))
     );
